@@ -1,0 +1,47 @@
+{
+ "dataset": "jingmen",
+ "key": "bilstm",
+ "cfg": {
+  "hidden": 128,
+  "d_model": 32,
+  "n_heads": 2,
+  "e_layers": 1,
+  "d_ff": 64,
+  "dropout": 0.2,
+  "lstm_layers": 2,
+  "residual": true,
+  "head_mode": "target",
+  "use_bilstm": true,
+  "model_type": "bilstm",
+  "fusion": "serial",
+  "mv_hidden": null,
+  "mv_layers": 1,
+  "aux_weight": 0.0,
+  "lr": 0.0005,
+  "weight_decay": 1e-05,
+  "batch": 64,
+  "epochs": 60,
+  "patience": 12,
+  "seed": 42,
+  "device": "auto",
+  "monitor": "val_mape"
+ },
+ "cfg_hash": "7fe6c11dde16",
+ "val_mape_mean": 1.6565466666666666,
+ "val_mape_std": 0.024627302374036455,
+ "val_seeds": [
+  1.66225,
+  1.68345,
+  1.62394
+ ],
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "best_epoch": 33,
+ "params": 664452,
+ "test_mape": 2.358408545230495,
+ "test_rmse": 59.76767132925702,
+ "created_at": "2026-11-12 19:02:52"
+}

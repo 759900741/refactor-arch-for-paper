@@ -1,0 +1,47 @@
+{
+ "dataset": "jingmen",
+ "key": "transformer",
+ "cfg": {
+  "hidden": 128,
+  "d_model": 96,
+  "n_heads": 4,
+  "e_layers": 2,
+  "d_ff": 192,
+  "dropout": 0.2,
+  "lstm_layers": 2,
+  "residual": true,
+  "head_mode": "target",
+  "use_bilstm": true,
+  "model_type": "transformer",
+  "fusion": "serial",
+  "mv_hidden": null,
+  "mv_layers": 1,
+  "aux_weight": 0.0,
+  "lr": 0.003,
+  "weight_decay": 0.0,
+  "batch": 64,
+  "epochs": 60,
+  "patience": 12,
+  "seed": 42,
+  "device": "auto",
+  "monitor": "val_mape"
+ },
+ "cfg_hash": "f362d4e52b8c",
+ "val_mape_mean": 1.5502766666666667,
+ "val_mape_std": 0.021529546106584672,
+ "val_seeds": [
+  1.56532,
+  1.51983,
+  1.56568
+ ],
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "best_epoch": 38,
+ "params": 803524,
+ "test_mape": 3.8026771174738303,
+ "test_rmse": 77.85286603900809,
+ "created_at": "2026-11-12 20:07:35"
+}

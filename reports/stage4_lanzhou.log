@@ -1,0 +1,33 @@
+
+======================================================================
+阶段四：兰州市 2023 (lanzhou)
+  F=17, L=24, H=1, 样本 训练/验证/测试=6849/835/836, y_orig∈[7194.0,66910.7]
+    ep01 loss=0.01647 val_rmse=0.01519 lr=1.00e-03 (25.98s)
+    ep02 loss=0.00183 val_rmse=0.01379 lr=9.99e-04 (21.62s)
+    ep05 loss=0.00052 val_rmse=0.01366 lr=9.90e-04 (22.08s)
+    ep06 loss=0.00047 val_rmse=0.01411 lr=9.84e-04 (20.79s)
+    ep11 loss=0.00033 val_rmse=0.01418 lr=9.36e-04 (21.98s)
+    ep16 loss=0.00031 val_rmse=0.01323 lr=8.61e-04 (33.79s)
+    ep19 loss=0.00029 val_rmse=0.01320 lr=8.04e-04 (19.72s)
+    ep21 loss=0.00033 val_rmse=0.01326 lr=7.62e-04 (19.74s)
+    ep22 loss=0.00029 val_rmse=0.01301 lr=7.41e-04 (19.22s)
+    ep26 loss=0.00032 val_rmse=0.01437 lr=6.48e-04 (19.08s)
+    ep29 loss=0.00029 val_rmse=0.01298 lr=5.75e-04 (8.85s)
+    ep31 loss=0.00028 val_rmse=0.01315 lr=5.25e-04 (9.75s)
+    ep32 loss=0.00029 val_rmse=0.01295 lr=5.00e-04 (9.14s)
+    ep34 loss=0.00033 val_rmse=0.01295 lr=4.51e-04 (10.34s)
+    ep36 loss=0.00028 val_rmse=0.01480 lr=4.02e-04 (12.84s)
+    ep40 loss=0.00029 val_rmse=0.01293 lr=3.09e-04 (8.92s)
+    ep41 loss=0.00028 val_rmse=0.01485 lr=2.88e-04 (9.01s)
+    ep42 loss=0.00027 val_rmse=0.01288 lr=2.66e-04 (8.5s)
+    ep46 loss=0.00027 val_rmse=0.01326 lr=1.89e-04 (8.39s)
+    ep47 loss=0.00027 val_rmse=0.01287 lr=1.72e-04 (8.56s)
+    ep51 loss=0.00027 val_rmse=0.01317 lr=1.14e-04 (9.43s)
+    ep56 loss=0.00026 val_rmse=0.01287 lr=6.62e-05 (9.03s)
+    ep57 loss=0.00026 val_rmse=0.01284 lr=6.04e-05 (8.42s)
+    ep60 loss=0.00026 val_rmse=0.01307 lr=5.07e-05 (10.89s)
+  训练完成：最优 val RMSE=0.01284（ep57，60 轮，15.5 min）
+  基线(持续预测) test RMSE=564.9 | 本模型 test RMSE=551.6 （提升 2.3%）
+  产物：models/lanzhou_best.pt, preds/lanzhou_{val,test}.npz, reports/metrics/lanzhou_stage4.json, 图表 fig4_*_lanzhou.png
+
+阶段四完成。

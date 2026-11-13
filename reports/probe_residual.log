@@ -1,0 +1,6 @@
+== lanzhou 持续预测基线: RMSE=564.9 MAPE=3.00% R2=0.8340
+   lanzhou 直接回归: val=0.01422 test RMSE=  594.8 MAPE= 3.24% R2=0.8159 | 相对基线 -5.3% | best_ep=37
+   lanzhou 残差头: val=0.01304 test RMSE=  553.4 MAPE= 2.85% R2=0.8407 | 相对基线 +2.0% | best_ep=16
+== jingmen 持续预测基线: RMSE=73.7 MAPE=3.04% R2=0.8882
+   jingmen 直接回归: val=0.02974 test RMSE=   55.4 MAPE= 2.34% R2=0.9369 | 相对基线 +24.9% | best_ep=39
+   jingmen 残差头: val=0.03168 test RMSE=   54.3 MAPE= 2.27% R2=0.9394 | 相对基线 +26.3% | best_ep=40

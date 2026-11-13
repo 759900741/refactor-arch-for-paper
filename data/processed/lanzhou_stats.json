@@ -1,0 +1,111 @@
+{
+  "dataset": "lanzhou",
+  "label": "兰州市2023",
+  "file": "兰州用电负荷数据.csv",
+  "time_report": {
+    "n_raw": 8760,
+    "parse_fail": 0,
+    "n_dup": 0,
+    "n_rows_after": 8760,
+    "freq": "1h",
+    "added_steps": 0,
+    "missing_steps": 0
+  },
+  "anomaly": {
+    "method": "hampel",
+    "win": 25,
+    "k": 3.0,
+    "n_flagged": 92
+  },
+  "n_features": 27,
+  "feature_cols": [
+    "electricity(KW)",
+    "cold(ton)",
+    "heat(mmBTU)",
+    "Temperature",
+    "Wind Speed",
+    "Wind Direction",
+    "Surface Albedo",
+    "Pressure",
+    "Precipitable Water",
+    "Solar Zenith Angle",
+    "Relative Humidity",
+    "Dew Point",
+    "Cloud Type",
+    "hour",
+    "dayofweek",
+    "month",
+    "dayofyear",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "doy_sin",
+    "doy_cos",
+    "day_type",
+    "lag_1d",
+    "lag_1w"
+  ],
+  "const_dropped": [
+    "minute"
+  ],
+  "n_dropped_start": 168,
+  "split_boundaries": {
+    "train": [
+      "2023-01-08 00:00:00",
+      "2023-10-21 08:00:00"
+    ],
+    "val": [
+      "2023-10-21 09:00:00",
+      "2023-11-26 03:00:00"
+    ],
+    "test": [
+      "2023-11-26 04:00:00",
+      "2023-12-31 23:00:00"
+    ]
+  },
+  "windows": {
+    "train": {
+      "rows": 6873,
+      "X_shape": [
+        6849,
+        24,
+        27
+      ],
+      "y_shape": [
+        6849,
+        1
+      ]
+    },
+    "val": {
+      "rows": 859,
+      "X_shape": [
+        835,
+        24,
+        27
+      ],
+      "y_shape": [
+        835,
+        1
+      ]
+    },
+    "test": {
+      "rows": 860,
+      "X_shape": [
+        836,
+        24,
+        27
+      ],
+      "y_shape": [
+        836,
+        1
+      ]
+    }
+  },
+  "L": 24,
+  "H": 1,
+  "stride": 1,
+  "use_lags": true,
+  "norm": "minmax"
+}

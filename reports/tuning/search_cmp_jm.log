@@ -1,0 +1,260 @@
+
+[search] jingmen | bilstm | fast | 候选 114 组 | 空间维度 5
+  [01/114] val_mape=2.4675% val_rmse=0.03196 2s ep22 p=18k
+  [02/114] val_mape=1.7910% val_rmse=0.02355 4s ep14 p=664k
+  [03/114] val_mape=2.2349% val_rmse=0.02861 1s ep24 p=168k
+  [04/114] val_mape=1.7675% val_rmse=0.02364 4s ep14 p=664k
+  [05/114] val_mape=1.8216% val_rmse=0.02397 1s ep23 p=168k
+  [06/114] val_mape=1.8209% val_rmse=0.02392 2s ep21 p=375k
+  [07/114] val_mape=2.1435% val_rmse=0.02754 2s ep24 p=269k
+  [08/114] val_mape=1.7832% val_rmse=0.02373 4s ep24 p=664k
+  [09/114] val_mape=2.4131% val_rmse=0.03026 1s ep22 p=69k
+  [10/114] val_mape=2.5595% val_rmse=0.03235 1s ep24 p=168k
+  [11/114] val_mape=2.1758% val_rmse=0.02820 1s ep24 p=152k
+  [12/114] val_mape=1.9183% val_rmse=0.02510 4s ep24 p=664k
+  [13/114] val_mape=2.0937% val_rmse=0.02697 1s ep23 p=69k
+  [14/114] val_mape=1.8230% val_rmse=0.02389 2s ep22 p=375k
+  [15/114] val_mape=1.8739% val_rmse=0.02447 2s ep24 p=269k
+  [16/114] val_mape=1.8529% val_rmse=0.02430 1s ep22 p=152k
+  [17/114] val_mape=1.8160% val_rmse=0.02384 1s ep21 p=168k
+  [18/114] val_mape=2.5479% val_rmse=0.03236 1s ep24 p=43k
+  [19/114] val_mape=1.7723% val_rmse=0.02386 4s ep14 p=664k
+  [20/114] val_mape=2.0939% val_rmse=0.02698 1s ep23 p=69k
+  [21/114] val_mape=1.7722% val_rmse=0.02386 4s ep14 p=664k
+  [22/114] val_mape=1.8530% val_rmse=0.02430 1s ep22 p=152k
+  [23/114] val_mape=1.8242% val_rmse=0.02383 1s ep24 p=69k
+  [24/114] val_mape=1.9336% val_rmse=0.02526 4s ep24 p=664k
+  [25/114] val_mape=2.2468% val_rmse=0.02855 1s ep23 p=69k
+  [26/114] val_mape=2.8308% val_rmse=0.03682 1s ep24 p=43k
+  [27/114] val_mape=1.8903% val_rmse=0.02472 1s ep22 p=152k
+  [28/114] val_mape=1.8242% val_rmse=0.02383 1s ep24 p=69k
+  [29/114] val_mape=1.8236% val_rmse=0.02403 2s ep21 p=375k
+  [30/114] val_mape=2.0805% val_rmse=0.02712 1s ep24 p=43k
+  [31/114] val_mape=2.0312% val_rmse=0.02644 1s ep24 p=152k
+  [32/114] val_mape=1.8617% val_rmse=0.02440 2s ep22 p=269k
+  [33/114] val_mape=1.8068% val_rmse=0.02355 4s ep14 p=664k
+  [34/114] val_mape=2.4131% val_rmse=0.03026 1s ep22 p=69k
+  [35/114] val_mape=3.0492% val_rmse=0.04047 1s ep24 p=69k
+  [36/114] val_mape=1.8903% val_rmse=0.02472 1s ep22 p=152k
+  [37/114] val_mape=3.0492% val_rmse=0.04047 1s ep24 p=69k
+  [38/114] val_mape=2.0313% val_rmse=0.02644 1s ep24 p=152k
+  [39/114] val_mape=1.8219% val_rmse=0.02402 2s ep21 p=375k
+  [40/114] val_mape=3.0967% val_rmse=0.04165 1s ep24 p=18k
+  [41/114] val_mape=2.7288% val_rmse=0.03462 1s ep24 p=43k
+  [42/114] val_mape=2.9075% val_rmse=0.03993 1s ep24 p=43k
+  [43/114] val_mape=1.8903% val_rmse=0.02473 1s ep22 p=152k
+  [44/114] val_mape=2.3403% val_rmse=0.02976 1s ep24 p=168k
+  [45/114] val_mape=2.2472% val_rmse=0.02919 1s ep16 p=152k
+  [46/114] val_mape=1.9621% val_rmse=0.02532 1s ep24 p=69k
+  [47/114] val_mape=2.7313% val_rmse=0.03467 1s ep24 p=43k
+  [48/114] val_mape=2.1435% val_rmse=0.02754 2s ep24 p=269k
+  [49/114] val_mape=2.5479% val_rmse=0.03236 1s ep24 p=43k
+  [50/114] val_mape=2.0061% val_rmse=0.02598 2s ep24 p=269k
+  [51/114] val_mape=2.3186% val_rmse=0.03043 1s ep23 p=18k
+  [52/114] val_mape=1.8229% val_rmse=0.02389 2s ep22 p=375k
+  [53/114] val_mape=2.2239% val_rmse=0.02877 1s ep24 p=43k
+  [54/114] val_mape=1.7729% val_rmse=0.02337 2s ep19 p=375k
+  [55/114] val_mape=2.0616% val_rmse=0.02658 2s ep24 p=375k
+  [56/114] val_mape=2.5662% val_rmse=0.03244 1s ep24 p=168k
+  [57/114] val_mape=1.9467% val_rmse=0.02508 2s ep24 p=375k
+  [58/114] val_mape=1.8250% val_rmse=0.02380 2s ep24 p=269k
+  [59/114] val_mape=2.7260% val_rmse=0.03457 1s ep24 p=43k
+  [60/114] val_mape=3.0967% val_rmse=0.04165 1s ep24 p=18k
+  [61/114] val_mape=2.1435% val_rmse=0.02754 2s ep24 p=269k
+  [62/114] val_mape=1.7593% val_rmse=0.02342 4s ep14 p=664k
+  [63/114] val_mape=2.6196% val_rmse=0.03277 1s ep22 p=69k
+  [64/114] val_mape=2.2468% val_rmse=0.02855 1s ep23 p=69k
+  [65/114] val_mape=1.8136% val_rmse=0.02377 2s ep24 p=269k
+  [66/114] val_mape=2.3459% val_rmse=0.03000 1s ep24 p=43k
+  [67/114] val_mape=2.2536% val_rmse=0.02944 1s ep24 p=18k
+  [68/114] val_mape=2.7787% val_rmse=0.03600 1s ep23 p=18k
+  [69/114] val_mape=2.3389% val_rmse=0.03009 1s ep21 p=152k
+  [70/114] val_mape=2.0423% val_rmse=0.02666 1s ep24 p=43k
+  [71/114] val_mape=1.7894% val_rmse=0.02369 2s ep13 p=375k
+  [72/114] val_mape=1.7757% val_rmse=0.02361 4s ep18 p=664k
+  [73/114] val_mape=2.9074% val_rmse=0.03993 1s ep24 p=43k
+  [74/114] val_mape=2.3186% val_rmse=0.03043 1s ep23 p=18k
+  [75/114] val_mape=2.5595% val_rmse=0.03235 1s ep24 p=168k
+  [76/114] val_mape=1.8239% val_rmse=0.02410 1s ep23 p=168k
+  [77/114] val_mape=1.8100% val_rmse=0.02377 1s ep21 p=168k
+  [78/114] val_mape=1.8048% val_rmse=0.02383 2s ep14 p=375k
+  [79/114] val_mape=2.3175% val_rmse=0.02925 2s ep22 p=269k
+  [80/114] val_mape=3.2002% val_rmse=0.04447 1s ep24 p=18k
+  [81/114] val_mape=1.8067% val_rmse=0.02355 4s ep14 p=664k
+  [82/114] val_mape=1.9284% val_rmse=0.02507 1s ep23 p=168k
+  [83/114] val_mape=1.8903% val_rmse=0.02472 1s ep22 p=152k
+  [84/114] val_mape=1.9733% val_rmse=0.02539 2s ep24 p=375k
+  [85/114] val_mape=1.7812% val_rmse=0.02341 4s ep14 p=664k
+  [86/114] val_mape=1.8739% val_rmse=0.02447 2s ep24 p=269k
+  [87/114] val_mape=2.4676% val_rmse=0.03196 1s ep22 p=18k
+  [88/114] val_mape=2.2536% val_rmse=0.02944 1s ep24 p=18k
+  [89/114] val_mape=2.2473% val_rmse=0.02919 1s ep16 p=152k
+  [90/114] val_mape=2.0313% val_rmse=0.02644 1s ep24 p=152k
+  [91/114] val_mape=1.9192% val_rmse=0.02496 1s ep23 p=168k
+  [92/114] val_mape=1.8135% val_rmse=0.02377 2s ep24 p=269k
+  [93/114] val_mape=2.0794% val_rmse=0.02679 1s ep24 p=168k
+  [94/114] val_mape=2.0686% val_rmse=0.02665 2s ep24 p=375k
+  [95/114] val_mape=3.2002% val_rmse=0.04447 1s ep24 p=18k
+  [96/114] val_mape=2.4675% val_rmse=0.03196 1s ep22 p=18k
+  [97/114] val_mape=1.9221% val_rmse=0.02521 1s ep22 p=152k
+  [98/114] val_mape=2.3175% val_rmse=0.02925 2s ep22 p=269k
+  [99/114] val_mape=2.2348% val_rmse=0.02881 2s ep24 p=375k
+  [100/114] val_mape=2.7787% val_rmse=0.03600 1s ep23 p=18k
+  [101/114] val_mape=1.8615% val_rmse=0.02440 2s ep22 p=269k
+  [102/114] val_mape=2.1755% val_rmse=0.02820 1s ep24 p=152k
+  [103/114] val_mape=2.9100% val_rmse=0.04002 1s ep24 p=43k
+  [104/114] val_mape=1.9621% val_rmse=0.02532 1s ep24 p=69k
+  [105/114] val_mape=1.8048% val_rmse=0.02385 4s ep18 p=664k
+  [106/114] val_mape=2.0937% val_rmse=0.02697 1s ep23 p=69k
+  [107/114] val_mape=1.9209% val_rmse=0.02513 4s ep24 p=664k
+  [108/114] val_mape=2.5541% val_rmse=0.03231 1s ep24 p=43k
+  [109/114] val_mape=2.0802% val_rmse=0.02711 1s ep24 p=43k
+  [110/114] val_mape=2.3344% val_rmse=0.02980 1s ep22 p=168k
+  [111/114] val_mape=2.3185% val_rmse=0.03042 1s ep23 p=18k
+  [112/114] val_mape=1.7869% val_rmse=0.02366 4s ep19 p=664k
+  [113/114] val_mape=2.6196% val_rmse=0.03277 1s ep22 p=69k
+  [114/114] val_mape=1.9638% val_rmse=0.02527 2s ep24 p=375k
+  当前最优 val_mape=1.6623%  cfg=hidden=128, dropout=0.2, lstm_layers=2, lr=0.0005, weight_decay=1e-05
+
+[refine] jingmen | bilstm | full | 候选 3 组
+  [01/3] val_mape=1.7393% (18s)
+  [02/3] val_mape=1.7569% (23s)
+  [03/3] val_mape=1.8188% (14s)
+
+[search] jingmen | transformer | fast | 候选 60 组 | 空间维度 9
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+  [01/60] val_mape=3.1592% val_rmse=0.04111 3s ep22 p=28k
+  [02/60] val_mape=1.9181% val_rmse=0.02451 8s ep21 p=960k
+  [03/60] val_mape=2.2401% val_rmse=0.02788 8s ep18 p=960k
+  [04/60] val_mape=1.9181% val_rmse=0.02451 8s ep21 p=960k
+  [05/60] val_mape=2.9265% val_rmse=0.03746 3s ep21 p=242k
+  [06/60] val_mape=2.1288% val_rmse=0.02688 6s ep12 p=960k
+  [07/60] val_mape=3.2586% val_rmse=0.04037 3s ep10 p=556k
+  [08/60] val_mape=2.2276% val_rmse=0.02815 3s ep22 p=394k
+  [09/60] val_mape=2.0923% val_rmse=0.02764 6s ep14 p=803k
+  [10/60] val_mape=2.6009% val_rmse=0.03331 5s ep22 p=461k
+  [11/60] val_mape=3.5682% val_rmse=0.04639 2s ep6 p=393k
+  [12/60] val_mape=2.5437% val_rmse=0.03189 3s ep18 p=317k
+  [13/60] val_mape=3.1509% val_rmse=0.04309 5s ep22 p=449k
+  [14/60] val_mape=2.5194% val_rmse=0.03191 3s ep20 p=176k
+  [15/60] val_mape=2.5135% val_rmse=0.03163 7s ep21 p=820k
+  [16/60] val_mape=2.5195% val_rmse=0.03261 6s ep20 p=565k
+  [17/60] val_mape=2.1953% val_rmse=0.02805 4s ep23 p=316k
+  [18/60] val_mape=4.1843% val_rmse=0.05267 2s ep9 p=153k
+  [19/60] val_mape=2.2760% val_rmse=0.02863 3s ep13 p=250k
+  [20/60] val_mape=2.8277% val_rmse=0.03649 5s ep21 p=275k
+  [21/60] val_mape=2.1239% val_rmse=0.02728 3s ep20 p=251k
+  [22/60] val_mape=2.3936% val_rmse=0.03027 4s ep21 p=176k
+  [23/60] val_mape=2.6030% val_rmse=0.03444 4s ep24 p=343k
+  [24/60] val_mape=2.5953% val_rmse=0.03338 6s ep18 p=645k
+  [25/60] val_mape=2.3735% val_rmse=0.02996 3s ep17 p=351k
+  [26/60] val_mape=3.1349% val_rmse=0.03931 2s ep9 p=244k
+  [27/60] val_mape=1.9882% val_rmse=0.02611 5s ep23 p=316k
+  [28/60] val_mape=2.5467% val_rmse=0.03262 5s ep24 p=428k
+  [29/60] val_mape=2.4959% val_rmse=0.03130 5s ep24 p=466k
+  [30/60] val_mape=2.3309% val_rmse=0.03048 3s ep14 p=467k
+  [31/60] val_mape=3.0922% val_rmse=0.03899 3s ep16 p=276k
+  [32/60] val_mape=4.0363% val_rmse=0.05144 1s ep7 p=153k
+  [33/60] val_mape=1.9761% val_rmse=0.02538 6s ep22 p=616k
+  [34/60] val_mape=1.9775% val_rmse=0.02598 7s ep17 p=712k
+  [35/60] val_mape=2.5669% val_rmse=0.03346 2s ep18 p=116k
+  [36/60] val_mape=3.8784% val_rmse=0.04915 2s ep19 p=116k
+  [37/60] val_mape=3.4472% val_rmse=0.04335 3s ep23 p=225k
+  [38/60] val_mape=2.2114% val_rmse=0.02829 3s ep16 p=276k
+  [39/60] val_mape=2.0932% val_rmse=0.02855 5s ep17 p=498k
+  [40/60] val_mape=4.0655% val_rmse=0.04949 4s ep20 p=416k
+  [41/60] val_mape=3.1852% val_rmse=0.04191 5s ep16 p=483k
+  [42/60] val_mape=3.6235% val_rmse=0.04626 3s ep21 p=191k
+  [43/60] val_mape=4.0195% val_rmse=0.05038 3s ep19 p=172k
+  [44/60] val_mape=2.0058% val_rmse=0.02594 3s ep21 p=266k
+  [45/60] val_mape=2.6322% val_rmse=0.03322 3s ep22 p=225k
+  [46/60] val_mape=1.7738% val_rmse=0.02352 7s ep24 p=803k
+  [47/60] val_mape=2.6694% val_rmse=0.03502 4s ep24 p=275k
+  [48/60] val_mape=2.1730% val_rmse=0.02793 5s ep24 p=565k
+  [49/60] val_mape=3.3509% val_rmse=0.04764 4s ep10 p=515k
+  [50/60] val_mape=3.3252% val_rmse=0.04082 4s ep21 p=333k
+  [51/60] val_mape=2.8609% val_rmse=0.04084 6s ep24 p=616k
+  [52/60] val_mape=3.9137% val_rmse=0.05023 2s ep6 p=216k
+  [53/60] val_mape=2.8310% val_rmse=0.03576 3s ep23 p=416k
+  [54/60] val_mape=2.7403% val_rmse=0.03368 3s ep23 p=141k
+  [55/60] val_mape=3.6552% val_rmse=0.04559 3s ep21 p=251k
+  [56/60] val_mape=2.3234% val_rmse=0.02961 8s ep19 p=803k
+  [57/60] val_mape=3.5258% val_rmse=0.04579 4s ep24 p=461k
+  [58/60] val_mape=3.5279% val_rmse=0.04741 2s ep9 p=97k
+  [59/60] val_mape=4.3453% val_rmse=0.05189 3s ep24 p=244k
+  [60/60] val_mape=2.2341% val_rmse=0.02873 2s ep16 p=171k
+  当前最优 val_mape=1.7738%  cfg=hidden=128, d_model=96, n_heads=4, e_layers=2, d_ff=192, dropout=0.2, lstm_layers=2, lr=0.003, weight_decay=0.0
+
+[refine] jingmen | transformer | full | 候选 2 组
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+  [01/2] val_mape=1.5653% (70s)
+  [02/2] val_mape=1.7079% (61s)
+
+[search] jingmen | informer | fast | 候选 60 组 | 空间维度 9
+  [01/60] val_mape=3.7037% val_rmse=0.04683 4s ep23 p=28k
+  [02/60] val_mape=2.0097% val_rmse=0.02607 9s ep15 p=960k
+  [03/60] val_mape=2.1428% val_rmse=0.02764 8s ep13 p=960k
+  [04/60] val_mape=2.0100% val_rmse=0.02608 8s ep15 p=960k
+  [05/60] val_mape=2.3785% val_rmse=0.02976 4s ep22 p=242k
+  [06/60] val_mape=2.0174% val_rmse=0.02686 6s ep10 p=960k
+  [07/60] val_mape=2.4487% val_rmse=0.03181 4s ep18 p=556k
+  [08/60] val_mape=2.7557% val_rmse=0.03418 3s ep16 p=394k
+  [09/60] val_mape=1.9026% val_rmse=0.02637 7s ep19 p=803k
+  [10/60] val_mape=2.9207% val_rmse=0.03642 7s ep19 p=461k
+  [11/60] val_mape=2.7761% val_rmse=0.03431 5s ep17 p=393k
+  [12/60] val_mape=2.0938% val_rmse=0.02740 3s ep23 p=317k
+  [13/60] val_mape=3.4268% val_rmse=0.04815 2s ep5 p=449k
+  [14/60] val_mape=3.0288% val_rmse=0.03804 4s ep24 p=176k
+  [15/60] val_mape=2.2215% val_rmse=0.02784 8s ep24 p=820k
+  [16/60] val_mape=3.1075% val_rmse=0.04038 7s ep23 p=565k
+  [17/60] val_mape=2.0758% val_rmse=0.02685 5s ep24 p=316k
+  [18/60] val_mape=3.6977% val_rmse=0.04590 2s ep10 p=153k
+  [19/60] val_mape=2.2208% val_rmse=0.02817 4s ep19 p=250k
+  [20/60] val_mape=2.5892% val_rmse=0.03295 5s ep20 p=275k
+  [21/60] val_mape=2.7174% val_rmse=0.03359 2s ep13 p=251k
+  [22/60] val_mape=2.4714% val_rmse=0.03219 5s ep24 p=176k
+  [23/60] val_mape=2.2090% val_rmse=0.02899 4s ep21 p=343k
+  [24/60] val_mape=2.2157% val_rmse=0.02893 6s ep20 p=645k
+  [25/60] val_mape=2.6552% val_rmse=0.03417 4s ep23 p=351k
+  [26/60] val_mape=2.4653% val_rmse=0.03161 2s ep14 p=244k
+  [27/60] val_mape=2.0394% val_rmse=0.02606 6s ep24 p=316k
+  [28/60] val_mape=2.8038% val_rmse=0.03519 6s ep22 p=428k
+  [29/60] val_mape=2.9995% val_rmse=0.03713 4s ep17 p=466k
+  [30/60] val_mape=2.3953% val_rmse=0.02951 3s ep13 p=467k
+  [31/60] val_mape=3.0030% val_rmse=0.03636 4s ep20 p=276k
+  [32/60] val_mape=2.9399% val_rmse=0.03720 2s ep14 p=153k
+  [33/60] val_mape=1.8891% val_rmse=0.02488 7s ep21 p=616k
+  [34/60] val_mape=1.9158% val_rmse=0.02471 8s ep23 p=712k
+  [35/60] val_mape=2.3275% val_rmse=0.02913 3s ep17 p=116k
+  [36/60] val_mape=3.8733% val_rmse=0.05154 2s ep13 p=116k
+  [37/60] val_mape=2.8702% val_rmse=0.03670 3s ep16 p=225k
+  [38/60] val_mape=2.6176% val_rmse=0.03267 2s ep14 p=276k
+  [39/60] val_mape=2.4559% val_rmse=0.03066 3s ep8 p=498k
+  [40/60] val_mape=3.2865% val_rmse=0.04207 4s ep16 p=416k
+  [41/60] val_mape=2.9961% val_rmse=0.03729 6s ep18 p=483k
+  [42/60] val_mape=3.4204% val_rmse=0.04575 3s ep17 p=191k
+  [43/60] val_mape=3.7836% val_rmse=0.04946 3s ep24 p=172k
+  [44/60] val_mape=2.4231% val_rmse=0.03068 3s ep17 p=266k
+  [45/60] val_mape=2.6300% val_rmse=0.03326 3s ep16 p=225k
+  [46/60] val_mape=1.7704% val_rmse=0.02342 7s ep20 p=803k
+  [47/60] val_mape=2.3148% val_rmse=0.02931 4s ep24 p=275k
+  [48/60] val_mape=2.3406% val_rmse=0.02993 4s ep10 p=565k
+  [49/60] val_mape=3.4339% val_rmse=0.04780 3s ep5 p=515k
+  [50/60] val_mape=4.1452% val_rmse=0.05202 3s ep8 p=333k
+  [51/60] val_mape=1.9176% val_rmse=0.02647 7s ep22 p=616k
+  [52/60] val_mape=3.1801% val_rmse=0.04154 5s ep21 p=216k
+  [53/60] val_mape=2.2492% val_rmse=0.02974 3s ep21 p=416k
+  [54/60] val_mape=2.6067% val_rmse=0.03303 3s ep16 p=141k
+  [55/60] val_mape=4.2385% val_rmse=0.05043 3s ep21 p=251k
+  [56/60] val_mape=2.4380% val_rmse=0.03129 5s ep8 p=803k
+  [57/60] val_mape=3.6599% val_rmse=0.04789 4s ep17 p=461k
+  [58/60] val_mape=2.8243% val_rmse=0.03427 3s ep18 p=97k
+  [59/60] val_mape=4.0484% val_rmse=0.05131 2s ep8 p=244k
+  [60/60] val_mape=2.6778% val_rmse=0.03660 2s ep10 p=171k
+  当前最优 val_mape=1.7704%  cfg=hidden=128, d_model=96, n_heads=4, e_layers=2, d_ff=192, dropout=0.2, lstm_layers=2, lr=0.003, weight_decay=0.0
+
+[refine] jingmen | informer | full | 候选 2 组
+  [01/2] val_mape=1.6850% (59s)
+  [02/2] val_mape=1.7211% (37s)

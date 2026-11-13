@@ -1,0 +1,14 @@
+
+[finalize] jingmen | transformer | full | top1 × seeds[42, 43, 44]
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+  seed=42 val_mape=1.5653% val_rmse=0.02432 (68s, p=803k)
+  seed=43 val_mape=1.5198% val_rmse=0.02209 (76s, p=803k)
+  seed=44 val_mape=1.5657% val_rmse=0.02331 (78s, p=803k)
+  => best val_mape=1.5503±0.0215% | test RMSE=77.85MW MAPE=3.80% | cfg=hidden=128, d_model=96, n_heads=4, e_layers=2, d_ff=192, dropout=0.2, lstm_layers=2, lr=0.003, weight_decay=0.0, fusion=serial, mv_layers=1
+
+[finalize] jingmen | informer | full | top1 × seeds[42, 43, 44]
+  seed=42 val_mape=1.6850% val_rmse=0.02454 (62s, p=803k)
+  seed=43 val_mape=1.4497% val_rmse=0.02189 (76s, p=803k)
+  seed=44 val_mape=1.9172% val_rmse=0.02693 (26s, p=803k)
+  => best val_mape=1.6840±0.1909% | test RMSE=73.35MW MAPE=3.49% | cfg=hidden=128, d_model=96, n_heads=4, e_layers=2, d_ff=192, dropout=0.2, lstm_layers=2, lr=0.003, weight_decay=0.0, fusion=serial, mv_layers=1

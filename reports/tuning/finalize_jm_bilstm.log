@@ -1,0 +1,6 @@
+
+[finalize] jingmen | bilstm | full | top1 × seeds[42, 43, 44]
+  seed=42 val_mape=1.6623% val_rmse=0.02445 (37s, p=664k)
+  seed=43 val_mape=1.6834% val_rmse=0.02464 (22s, p=664k)
+  seed=44 val_mape=1.6239% val_rmse=0.02441 (30s, p=664k)
+  => best val_mape=1.6565±0.0246% | test RMSE=59.77MW MAPE=2.36% | cfg=hidden=128, d_model=32, n_heads=2, e_layers=1, d_ff=64, dropout=0.2, lstm_layers=2, lr=0.0005, weight_decay=1e-05, fusion=serial, mv_layers=1

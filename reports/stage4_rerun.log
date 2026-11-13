@@ -1,0 +1,76 @@
+
+======================================================================
+阶段四：荆门市 2024 (jingmen)
+  F=22, L=96, H=4, 样本 训练/验证/测试=6868/837/837, y_orig∈[1205.1,2950.6]
+    ep01 loss=0.02748 val_rmse=0.04830 lr=1.00e-03 (114.89s)
+    ep02 loss=0.00431 val_rmse=0.04691 lr=9.99e-04 (84.98s)
+    ep03 loss=0.00340 val_rmse=0.04621 lr=9.97e-04 (91.33s)
+    ep04 loss=0.00298 val_rmse=0.04411 lr=9.94e-04 (109.02s)
+    ep05 loss=0.00252 val_rmse=0.03792 lr=9.90e-04 (98.92s)
+    ep06 loss=0.00222 val_rmse=0.03899 lr=9.84e-04 (85.66s)
+    ep07 loss=0.00204 val_rmse=0.03670 lr=9.77e-04 (90.64s)
+    ep10 loss=0.00190 val_rmse=0.03607 lr=9.48e-04 (97.18s)
+    ep11 loss=0.00185 val_rmse=0.03615 lr=9.36e-04 (86.93s)
+    ep14 loss=0.00173 val_rmse=0.03451 lr=8.94e-04 (97.35s)
+    ep15 loss=0.00167 val_rmse=0.03382 lr=8.78e-04 (99.35s)
+    ep16 loss=0.00157 val_rmse=0.03362 lr=8.61e-04 (106.15s)
+    ep17 loss=0.00149 val_rmse=0.03285 lr=8.43e-04 (97.25s)
+    ep19 loss=0.00147 val_rmse=0.03163 lr=8.04e-04 (88.07s)
+    ep21 loss=0.00136 val_rmse=0.03040 lr=7.62e-04 (127.13s)
+    ep22 loss=0.00134 val_rmse=0.03023 lr=7.41e-04 (128.03s)
+    ep23 loss=0.00131 val_rmse=0.02990 lr=7.18e-04 (111.98s)
+    ep24 loss=0.00131 val_rmse=0.02984 lr=6.95e-04 (88.86s)
+    ep25 loss=0.00127 val_rmse=0.02895 lr=6.72e-04 (92.41s)
+    ep26 loss=0.00125 val_rmse=0.02904 lr=6.48e-04 (104.18s)
+    ep30 loss=0.00123 val_rmse=0.02892 lr=5.50e-04 (86.87s)
+    ep31 loss=0.00120 val_rmse=0.02890 lr=5.25e-04 (85.39s)
+    ep33 loss=0.00121 val_rmse=0.02828 lr=4.75e-04 (88.28s)
+    ep36 loss=0.00115 val_rmse=0.02865 lr=4.02e-04 (87.91s)
+    ep38 loss=0.00112 val_rmse=0.02804 lr=3.55e-04 (91.39s)
+    ep41 loss=0.00108 val_rmse=0.02803 lr=2.88e-04 (85.31s)
+    ep42 loss=0.00109 val_rmse=0.02788 lr=2.66e-04 (89.11s)
+    ep44 loss=0.00108 val_rmse=0.02783 lr=2.26e-04 (90.56s)
+    ep46 loss=0.00108 val_rmse=0.02798 lr=1.89e-04 (83.55s)
+    ep47 loss=0.00108 val_rmse=0.02781 lr=1.72e-04 (84.86s)
+    ep48 loss=0.00107 val_rmse=0.02742 lr=1.56e-04 (86.91s)
+    ep51 loss=0.00105 val_rmse=0.02752 lr=1.14e-04 (86.08s)
+    ep55 loss=0.00102 val_rmse=0.02726 lr=7.32e-05 (99.69s)
+    ep56 loss=0.00104 val_rmse=0.02813 lr=6.62e-05 (86.12s)
+    ep60 loss=0.00103 val_rmse=0.02734 lr=5.07e-05 (85.68s)
+  训练完成：最优 val RMSE=0.02726（ep55，60 轮，93.5 min）
+  基线(持续预测) test RMSE=73.7 | 本模型 test RMSE=51.2 （提升 30.6%）
+  产物：models/jingmen_best.pt, preds/jingmen_{val,test}.npz, reports/metrics/jingmen_stage4.json, 图表 fig4_*_jingmen.png
+
+======================================================================
+阶段四：兰州市 2023 (lanzhou)
+  F=22, L=24, H=1, 样本 训练/验证/测试=6849/835/836, y_orig∈[7194.0,66910.7]
+    ep01 loss=0.04343 val_rmse=0.02001 lr=1.00e-03 (23.41s)
+    ep02 loss=0.00124 val_rmse=0.01348 lr=9.99e-04 (20.87s)
+    ep04 loss=0.00064 val_rmse=0.01335 lr=9.94e-04 (23.48s)
+    ep06 loss=0.00048 val_rmse=0.01366 lr=9.84e-04 (20.58s)
+    ep11 loss=0.00034 val_rmse=0.01344 lr=9.36e-04 (18.58s)
+    ep13 loss=0.00033 val_rmse=0.01315 lr=9.09e-04 (22.19s)
+    ep14 loss=0.00031 val_rmse=0.01311 lr=8.94e-04 (22.18s)
+    ep16 loss=0.00030 val_rmse=0.01319 lr=8.61e-04 (20.69s)
+    ep20 loss=0.00029 val_rmse=0.01305 lr=7.84e-04 (20.06s)
+    ep21 loss=0.00028 val_rmse=0.01368 lr=7.62e-04 (18.83s)
+    ep25 loss=0.00028 val_rmse=0.01302 lr=6.72e-04 (19.35s)
+    ep26 loss=0.00028 val_rmse=0.01368 lr=6.48e-04 (19.74s)
+    ep31 loss=0.00027 val_rmse=0.01298 lr=5.25e-04 (18.44s)
+    ep36 loss=0.00029 val_rmse=0.01303 lr=4.02e-04 (21.84s)
+    ep39 loss=0.00027 val_rmse=0.01295 lr=3.32e-04 (24.37s)
+    ep41 loss=0.00027 val_rmse=0.01317 lr=2.88e-04 (22.41s)
+    ep46 loss=0.00027 val_rmse=0.01298 lr=1.89e-04 (19.14s)
+    ep47 loss=0.00027 val_rmse=0.01295 lr=1.72e-04 (17.55s)
+    ep48 loss=0.00027 val_rmse=0.01294 lr=1.56e-04 (17.72s)
+    ep51 loss=0.00027 val_rmse=0.01298 lr=1.14e-04 (18.15s)
+    ep52 loss=0.00027 val_rmse=0.01292 lr=1.02e-04 (18.72s)
+    ep56 loss=0.00026 val_rmse=0.01299 lr=6.62e-05 (19.4s)
+    ep60 loss=0.00026 val_rmse=0.01297 lr=5.07e-05 (20.13s)
+  训练完成：最优 val RMSE=0.01292（ep52，60 轮，20.0 min）
+  基线(持续预测) test RMSE=564.9 | 本模型 test RMSE=547.0 （提升 3.2%）
+  产物：models/lanzhou_best.pt, preds/lanzhou_{val,test}.npz, reports/metrics/lanzhou_stage4.json, 图表 fig4_*_lanzhou.png
+
+报告：reports/stage4_results.md
+
+阶段四完成。

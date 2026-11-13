@@ -1,0 +1,5 @@
+variant 说明: sel=RPCA-L 输入, selorig=原始输入（同样的 MIV 选中列）
+lanzhou  sel     : val_rmse=0.04096 val_R2=0.191 | test RMSE= 1140.2 MAPE= 7.59% R2= 0.324 | 基线 RMSE= 1139.3 R2= 0.325 | best_ep=6
+lanzhou  selorig : val_rmse=0.01422 val_R2=0.903 | test RMSE=  594.8 MAPE= 3.24% R2= 0.816 | 基线 RMSE=  564.9 R2= 0.834 | best_ep=37
+jingmen  sel     : val_rmse=0.07820 val_R2=0.567 | test RMSE=  135.0 MAPE= 5.50% R2= 0.625 | 基线 RMSE=  153.2 R2= 0.517 | best_ep=12
+jingmen  selorig : val_rmse=0.02974 val_R2=0.937 | test RMSE=   55.4 MAPE= 2.34% R2= 0.937 | 基线 RMSE=   73.7 R2= 0.888 | best_ep=39

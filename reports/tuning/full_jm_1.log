@@ -1,0 +1,12 @@
+
+[refine] jingmen | bilstm_itransformer | full | 候选 4 组
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+  [01/4] val_mape=1.5606% (912s)
+  [02/4] val_mape=1.6589% (213s)
+  [03/4] val_mape=1.5704% (1867s)
+  [04/4] val_mape=1.7558% (849s)
+
+[refine] jingmen | bilstm | full | 候选 4 组
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)

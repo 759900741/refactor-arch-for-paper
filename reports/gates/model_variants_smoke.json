@@ -1,0 +1,71 @@
+{
+  "bilstm": {
+    "ok": true,
+    "params": 18148,
+    "out_shape": [
+      8,
+      4
+    ],
+    "device": "cuda"
+  },
+  "transformer": {
+    "ok": true,
+    "params": 28388,
+    "out_shape": [
+      8,
+      4
+    ],
+    "device": "cuda"
+  },
+  "informer": {
+    "ok": true,
+    "params": 28388,
+    "out_shape": [
+      8,
+      4
+    ],
+    "device": "cuda"
+  },
+  "itransformer_only": {
+    "ok": true,
+    "params": 9508,
+    "out_shape": [
+      8,
+      4
+    ],
+    "device": "cuda"
+  },
+  "mean_head": {
+    "ok": true,
+    "params": 22532,
+    "out_shape": [
+      8,
+      4
+    ],
+    "device": "cuda"
+  },
+  "parallel": {
+    "ok": true,
+    "params": 40680,
+    "out_shape": [
+      8,
+      4
+    ],
+    "device": "cuda"
+  },
+  "gate": {
+    "ok": true,
+    "params": 40716,
+    "out_shape": [
+      8,
+      4
+    ],
+    "device": "cuda"
+  },
+  "_meta": {
+    "device": "cuda",
+    "cuda": true,
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch": "2.4.1+cu121"
+  }
+}

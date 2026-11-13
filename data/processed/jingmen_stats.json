@@ -1,0 +1,111 @@
+{
+  "dataset": "jingmen",
+  "label": "荆门市2024",
+  "file": "荆门市2024负荷天气.csv",
+  "time_report": {
+    "n_raw": 35136,
+    "parse_fail": 0,
+    "n_dup": 0,
+    "n_rows_after": 35136,
+    "freq": "15min",
+    "added_steps": 0,
+    "missing_steps": 0
+  },
+  "anomaly": {
+    "method": "global",
+    "n_sigma": 126,
+    "n_diff": 318,
+    "diff_threshold": 178.65781891977514
+  },
+  "n_features": 29,
+  "feature_cols": [
+    "负荷",
+    "max_temperature",
+    "low_temperature",
+    "avg_temperature",
+    "avg_shidu",
+    "jiangyuliang",
+    "wind_speed",
+    "cloud_cover",
+    "surface_pressure",
+    "shortwave_radiation",
+    "dew_point",
+    "is_workday",
+    "is_holiday",
+    "season",
+    "hour",
+    "minute",
+    "dayofweek",
+    "month",
+    "dayofyear",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "doy_sin",
+    "doy_cos",
+    "day_type",
+    "lag_1d",
+    "lag_1w"
+  ],
+  "const_dropped": [],
+  "n_dropped_start": 672,
+  "split_boundaries": {
+    "train": [
+      "2024-01-08 00:00:00",
+      "2024-10-21 04:30:00"
+    ],
+    "val": [
+      "2024-10-21 04:45:00",
+      "2024-11-26 02:00:00"
+    ],
+    "test": [
+      "2024-11-26 02:15:00",
+      "2024-12-31 23:45:00"
+    ]
+  },
+  "windows": {
+    "train": {
+      "rows": 27571,
+      "X_shape": [
+        6868,
+        96,
+        29
+      ],
+      "y_shape": [
+        6868,
+        4
+      ]
+    },
+    "val": {
+      "rows": 3446,
+      "X_shape": [
+        837,
+        96,
+        29
+      ],
+      "y_shape": [
+        837,
+        4
+      ]
+    },
+    "test": {
+      "rows": 3447,
+      "X_shape": [
+        837,
+        96,
+        29
+      ],
+      "y_shape": [
+        837,
+        4
+      ]
+    }
+  },
+  "L": 96,
+  "H": 4,
+  "stride": 4,
+  "use_lags": true,
+  "norm": "minmax"
+}

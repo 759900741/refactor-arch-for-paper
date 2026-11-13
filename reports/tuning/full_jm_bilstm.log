@@ -1,0 +1,6 @@
+
+[refine] jingmen | bilstm | full | 候选 4 组
+  [01/4] val_mape=1.7067% (24s)
+  [02/4] val_mape=1.6623% (35s)
+  [03/4] val_mape=1.6657% (24s)
+  [04/4] val_mape=1.6633% (26s)

@@ -1,0 +1,38 @@
+
+======================================================================
+阶段四：兰州市 2023 (lanzhou)
+  F=22, L=24, H=1, 样本 训练/验证/测试=6849/835/836, y_orig∈[7194.0,66910.7]
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+    ep01 loss=0.04357 val_rmse=0.01841 lr=1.00e-03 (1.02s)
+    ep02 loss=0.00123 val_rmse=0.01380 lr=9.99e-04 (0.38s)
+    ep03 loss=0.00083 val_rmse=0.01354 lr=9.97e-04 (0.38s)
+    ep04 loss=0.00065 val_rmse=0.01350 lr=9.94e-04 (0.36s)
+    ep06 loss=0.00047 val_rmse=0.01394 lr=9.84e-04 (0.35s)
+    ep08 loss=0.00040 val_rmse=0.01324 lr=9.68e-04 (0.36s)
+    ep09 loss=0.00038 val_rmse=0.01322 lr=9.59e-04 (0.36s)
+    ep11 loss=0.00035 val_rmse=0.01317 lr=9.36e-04 (0.35s)
+    ep14 loss=0.00032 val_rmse=0.01311 lr=8.94e-04 (0.36s)
+    ep15 loss=0.00030 val_rmse=0.01311 lr=8.78e-04 (0.35s)
+    ep16 loss=0.00031 val_rmse=0.01427 lr=8.61e-04 (0.35s)
+    ep19 loss=0.00029 val_rmse=0.01307 lr=8.04e-04 (0.35s)
+    ep21 loss=0.00031 val_rmse=0.01358 lr=7.62e-04 (0.35s)
+    ep22 loss=0.00029 val_rmse=0.01303 lr=7.41e-04 (0.36s)
+    ep26 loss=0.00031 val_rmse=0.01304 lr=6.48e-04 (0.36s)
+    ep27 loss=0.00028 val_rmse=0.01300 lr=6.24e-04 (0.35s)
+    ep31 loss=0.00028 val_rmse=0.01299 lr=5.25e-04 (0.35s)
+    ep36 loss=0.00027 val_rmse=0.01405 lr=4.02e-04 (0.35s)
+    ep39 loss=0.00027 val_rmse=0.01298 lr=3.32e-04 (0.36s)
+    ep41 loss=0.00027 val_rmse=0.01317 lr=2.88e-04 (0.35s)
+    ep44 loss=0.00027 val_rmse=0.01298 lr=2.26e-04 (0.35s)
+    ep45 loss=0.00027 val_rmse=0.01293 lr=2.07e-04 (0.35s)
+    ep46 loss=0.00027 val_rmse=0.01298 lr=1.89e-04 (0.35s)
+    ep51 loss=0.00026 val_rmse=0.01291 lr=1.14e-04 (0.36s)
+    ep53 loss=0.00026 val_rmse=0.01291 lr=9.11e-05 (0.36s)
+    ep56 loss=0.00026 val_rmse=0.01318 lr=6.62e-05 (0.36s)
+    ep60 loss=0.00026 val_rmse=0.01297 lr=5.07e-05 (0.36s)
+  训练完成：最优 val RMSE=0.01291（ep53，60 轮，0.4 min）
+  基线(持续预测) test RMSE=564.9 | 本模型 test RMSE=546.6 （提升 3.2%）
+  产物：models/lanzhou_best.pt, preds/lanzhou_{val,test}.npz, reports/metrics/lanzhou_stage4.json, 图表 fig4_*_lanzhou.png
+
+阶段四完成。

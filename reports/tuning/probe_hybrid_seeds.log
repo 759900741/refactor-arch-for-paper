@@ -1,0 +1,5 @@
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+  本文 seed=43 val=1.637% test=1.921% RMSE=50.0 R2=0.9486 ratio=1.17 ep=60
+  本文 seed=44 val=1.603% test=1.715% RMSE=43.5 R2=0.9610 ratio=1.07 ep=60
+  done

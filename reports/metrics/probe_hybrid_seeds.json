@@ -1,0 +1,20 @@
+[
+ {
+  "seed": 43,
+  "val_mape": 1.6371,
+  "test_mape": 1.921,
+  "test_rmse": 49.96,
+  "test_r2": 0.9486,
+  "ratio": 1.173,
+  "best_ep": 60
+ },
+ {
+  "seed": 44,
+  "val_mape": 1.6031,
+  "test_mape": 1.7155,
+  "test_rmse": 43.51,
+  "test_r2": 0.961,
+  "ratio": 1.07,
+  "best_ep": 60
+ }
+]

@@ -1,0 +1,192 @@
+{
+  "dataset": "jingmen",
+  "label": "荆门市2024",
+  "n_train": 27571,
+  "F_rpca": 13,
+  "rpca_cols": [
+    "负荷",
+    "max_temperature",
+    "low_temperature",
+    "avg_temperature",
+    "avg_shidu",
+    "jiangyuliang",
+    "wind_speed",
+    "cloud_cover",
+    "surface_pressure",
+    "shortwave_radiation",
+    "dew_point",
+    "lag_1d",
+    "lag_1w"
+  ],
+  "passthrough_cols": [
+    "is_workday",
+    "is_holiday",
+    "season",
+    "hour",
+    "minute",
+    "dayofweek",
+    "month",
+    "dayofyear",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "doy_sin",
+    "doy_cos",
+    "day_type"
+  ],
+  "c_grid": [
+    0.5,
+    1.0,
+    1.5,
+    2.0
+  ],
+  "c_table": [
+    {
+      "c": 0.5,
+      "lam": 0.0030112287290282786,
+      "iters": 27,
+      "converged": true,
+      "recon_rel_err": 6.988271254690267e-07,
+      "sparsity": 0.0021315596376348615,
+      "signal_ret": 1.1532924613666957,
+      "anomaly_overlap": 0.3152454780361757,
+      "anomaly_ratio": 1.7907114753979534
+    },
+    {
+      "c": 1.0,
+      "lam": 0.006022457458056557,
+      "iters": 30,
+      "converged": true,
+      "recon_rel_err": 9.698522654289195e-07,
+      "sparsity": 0.18501881854680086,
+      "signal_ret": 1.0056661175653645,
+      "anomaly_overlap": 0.3281653746770026,
+      "anomaly_ratio": 3.601340586518621
+    },
+    {
+      "c": 1.5,
+      "lam": 0.009033686187084836,
+      "iters": 21,
+      "converged": true,
+      "recon_rel_err": 5.182809763807314e-07,
+      "sparsity": 0.7570133613077286,
+      "signal_ret": 1.017368454352623,
+      "anomaly_overlap": 0.27648578811369506,
+      "anomaly_ratio": 6.413611932057847
+    },
+    {
+      "c": 2.0,
+      "lam": 0.012044914916113115,
+      "iters": 20,
+      "converged": true,
+      "recon_rel_err": 5.051208959019821e-07,
+      "sparsity": 0.9360587908700055,
+      "signal_ret": 1.006162238667163,
+      "anomaly_overlap": 0.23255813953488372,
+      "anomaly_ratio": 12.846867402082136
+    }
+  ],
+  "c_selected": 2.0,
+  "c_note": "网格优选(异常分离比↑)",
+  "lam": 0.012044914916113115,
+  "iters": 20,
+  "converged": true,
+  "rank_L": 13,
+  "k": 3,
+  "cum_energy": 0.9657437423397561,
+  "energy_threshold": 0.95,
+  "removed_energy": 0.055066022792638177,
+  "load_corr_after": 0.9975870408846048,
+  "S_sparsity": 0.9360587908700055,
+  "signal_ret_mean": 1.0046940613184994,
+  "anomaly_overlap": 0.23255813953488372,
+  "anomaly_ratio": 12.846867402082136,
+  "n_anomaly_train": 387,
+  "signal_before_after": {
+    "负荷": {
+      "pearson_before": 0.9999999999999988,
+      "pearson_after": 0.9975870408846048,
+      "MI_before": 8.96837188113316,
+      "MI_after": 8.1885897544362
+    },
+    "max_temperature": {
+      "pearson_before": 0.488783077854831,
+      "pearson_after": 0.4901668775773183,
+      "MI_before": 0.3444051328151554,
+      "MI_after": 0.3398503269604154
+    },
+    "low_temperature": {
+      "pearson_before": 0.5348509701802756,
+      "pearson_after": 0.5354600298678319,
+      "MI_before": 0.352378419116528,
+      "MI_after": 0.36555928059439236
+    },
+    "avg_temperature": {
+      "pearson_before": 0.5154046237197861,
+      "pearson_after": 0.5158098764758433,
+      "MI_before": 0.35154509531135236,
+      "MI_after": 0.34878726176042285
+    },
+    "avg_shidu": {
+      "pearson_before": 0.03020702506727677,
+      "pearson_after": 0.021591824758840895,
+      "MI_before": 0.15380264809615163,
+      "MI_after": 0.20547549862408054
+    },
+    "jiangyuliang": {
+      "pearson_before": 0.016205465351053706,
+      "pearson_after": 0.024830094352155135,
+      "MI_before": 0.08845556207533045,
+      "MI_after": 0.11971391001678766
+    },
+    "wind_speed": {
+      "pearson_before": 0.02084753645044547,
+      "pearson_after": 0.03745648730154462,
+      "MI_before": 0.1960862097111642,
+      "MI_after": 0.21730811206010614
+    },
+    "cloud_cover": {
+      "pearson_before": 0.12335651063132677,
+      "pearson_after": 0.12335651083313623,
+      "MI_before": 0.16519930109494396,
+      "MI_after": 0.15815596635389184
+    },
+    "surface_pressure": {
+      "pearson_before": 0.44653545761131913,
+      "pearson_after": 0.45291396849886656,
+      "MI_before": 0.2705066529391775,
+      "MI_after": 0.28724247938825265
+    },
+    "shortwave_radiation": {
+      "pearson_before": 0.34114359311840664,
+      "pearson_after": 0.34413371095537926,
+      "MI_before": 0.23846310284034633,
+      "MI_after": 0.2386888750143612
+    },
+    "dew_point": {
+      "pearson_before": 0.5037530552209513,
+      "pearson_after": 0.5041543293236646,
+      "MI_before": 0.3331379692035821,
+      "MI_after": 0.33869481052492123
+    },
+    "lag_1d": {
+      "pearson_before": 0.953764308895388,
+      "pearson_after": 0.9589937644608852,
+      "MI_before": 1.2158544544422112,
+      "MI_after": 1.2713397914360982
+    },
+    "lag_1w": {
+      "pearson_before": 0.9331181721664671,
+      "pearson_after": 0.9455503103323837,
+      "MI_before": 1.0805452159759037,
+      "MI_after": 1.158561882899174
+    }
+  },
+  "windows_rows": {
+    "train": 27571,
+    "val": 3446,
+    "test": 3447
+  }
+}

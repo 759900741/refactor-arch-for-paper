@@ -1,0 +1,8 @@
+  warm-start：注入 5 个 fast 最优配置作为初始种群
+
+[TE-RIME] jingmen | bilstm_itransformer | dims=9 | pop=5 | 预算 500 次唯一评估
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+  -> best val_mape=2.3153%  evals=500  3521s
+     最优 cfg: hidden=128, d_model=96, n_heads=4, e_layers=2, d_ff=192, dropout=0.2, lstm_layers=2, lr=0.002, weight_decay=1e-05, fusion=serial
+  报告：reports/stage5_results.md ｜ 图：reports/figs/fig5_convergence_jingmen.png

@@ -1,0 +1,59 @@
+{
+  "python": "3.8.0",
+  "torch": "2.4.1+cu121",
+  "threads": 4,
+  "cap": {
+    "hidden": 32,
+    "d_model": 64,
+    "n_heads": 4,
+    "e_layers": 2,
+    "d_ff": 128,
+    "dropout": 0.1
+  },
+  "batch": 128,
+  "items": {
+    "jingmen": {
+      "L": 96,
+      "H": 4,
+      "F_sel": 22,
+      "F_all": 29,
+      "n_train": 6868,
+      "params_sel": 85956,
+      "params_all": 86404,
+      "param_drop": 0.0052,
+      "batches_per_epoch": 54,
+      "sec_per_batch": 0.2656,
+      "est_epoch_sec": 14.3,
+      "plan_epochs": 30,
+      "est_total_min": 7.2,
+      "grad_ok": true,
+      "out_shape": [
+        128,
+        4
+      ],
+      "backend": "cpu"
+    },
+    "lanzhou": {
+      "L": 24,
+      "H": 1,
+      "F_sel": 22,
+      "F_all": 27,
+      "n_train": 6849,
+      "params_sel": 85761,
+      "params_all": 86081,
+      "param_drop": 0.0037,
+      "batches_per_epoch": 54,
+      "sec_per_batch": 0.0773,
+      "est_epoch_sec": 4.2,
+      "plan_epochs": 30,
+      "est_total_min": 2.1,
+      "grad_ok": true,
+      "out_shape": [
+        128,
+        1
+      ],
+      "backend": "cpu"
+    }
+  },
+  "backend": "cuda"
+}

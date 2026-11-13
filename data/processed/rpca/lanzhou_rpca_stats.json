@@ -1,0 +1,202 @@
+{
+  "dataset": "lanzhou",
+  "label": "兰州市2023",
+  "n_train": 6873,
+  "F_rpca": 15,
+  "rpca_cols": [
+    "electricity(KW)",
+    "cold(ton)",
+    "heat(mmBTU)",
+    "Temperature",
+    "Wind Speed",
+    "Wind Direction",
+    "Surface Albedo",
+    "Pressure",
+    "Precipitable Water",
+    "Solar Zenith Angle",
+    "Relative Humidity",
+    "Dew Point",
+    "Cloud Type",
+    "lag_1d",
+    "lag_1w"
+  ],
+  "passthrough_cols": [
+    "hour",
+    "dayofweek",
+    "month",
+    "dayofyear",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "doy_sin",
+    "doy_cos",
+    "day_type"
+  ],
+  "c_grid": [
+    0.5,
+    1.0,
+    1.5,
+    2.0
+  ],
+  "c_table": [
+    {
+      "c": 0.5,
+      "lam": 0.006031104206885666,
+      "iters": 26,
+      "converged": true,
+      "recon_rel_err": 8.966715376929361e-07,
+      "sparsity": 0.047907269993695135,
+      "signal_ret": 0.9893149354413292,
+      "anomaly_overlap": 0.0136986301369863,
+      "anomaly_ratio": 1.4936073367535445
+    },
+    {
+      "c": 1.0,
+      "lam": 0.012062208413771333,
+      "iters": 30,
+      "converged": true,
+      "recon_rel_err": 7.034080331315642e-07,
+      "sparsity": 0.21814830981133906,
+      "signal_ret": 1.1492074234919827,
+      "anomaly_overlap": 0.0547945205479452,
+      "anomaly_ratio": 1.6837103718751734
+    },
+    {
+      "c": 1.5,
+      "lam": 0.018093312620657,
+      "iters": 20,
+      "converged": true,
+      "recon_rel_err": 4.659297830875898e-07,
+      "sparsity": 0.7362529705611329,
+      "signal_ret": 1.0844518287815594,
+      "anomaly_overlap": 0.0547945205479452,
+      "anomaly_ratio": 3.16138052972985
+    },
+    {
+      "c": 2.0,
+      "lam": 0.024124416827542666,
+      "iters": 18,
+      "converged": true,
+      "recon_rel_err": 9.252341494147227e-07,
+      "sparsity": 0.9110626121538387,
+      "signal_ret": 1.0510331960574382,
+      "anomaly_overlap": 0.0410958904109589,
+      "anomaly_ratio": 4.824581716276026
+    }
+  ],
+  "c_selected": 2.0,
+  "c_note": "网格优选(异常分离比↑)",
+  "lam": 0.024124416827542666,
+  "iters": 18,
+  "converged": true,
+  "rank_L": 15,
+  "k": 5,
+  "cum_energy": 0.9589643357366328,
+  "energy_threshold": 0.95,
+  "removed_energy": 0.0917993196475599,
+  "load_corr_after": 0.9799600493217647,
+  "S_sparsity": 0.9110626121538387,
+  "signal_ret_mean": 1.0389541102248325,
+  "anomaly_overlap": 0.0410958904109589,
+  "anomaly_ratio": 4.824581716276026,
+  "n_anomaly_train": 73,
+  "signal_before_after": {
+    "electricity(KW)": {
+      "pearson_before": 0.999999999999998,
+      "pearson_after": 0.9799600493217647,
+      "MI_before": 7.577746957989565,
+      "MI_after": 6.730477794426671
+    },
+    "cold(ton)": {
+      "pearson_before": 0.3381433642329074,
+      "pearson_after": 0.3448454646323547,
+      "MI_before": 0.7611834345046233,
+      "MI_after": 0.7517546703931366
+    },
+    "heat(mmBTU)": {
+      "pearson_before": 0.46745251006022787,
+      "pearson_after": 0.49185987814686477,
+      "MI_before": 0.7273379814284251,
+      "MI_after": 0.716086433390152
+    },
+    "Temperature": {
+      "pearson_before": 0.39086336425509804,
+      "pearson_after": 0.39775350649629554,
+      "MI_before": 0.47644360696372257,
+      "MI_after": 0.47682203641831666
+    },
+    "Wind Speed": {
+      "pearson_before": 0.050465249953669924,
+      "pearson_after": 0.0810008731473615,
+      "MI_before": 0.041760981509336936,
+      "MI_after": 0.05600908510143565
+    },
+    "Wind Direction": {
+      "pearson_before": 0.1539730193366926,
+      "pearson_after": 0.16037534586295066,
+      "MI_before": 0.10044081588581832,
+      "MI_after": 0.1064417289716868
+    },
+    "Surface Albedo": {
+      "pearson_before": 0.3738261519044295,
+      "pearson_after": 0.3842941081975159,
+      "MI_before": 0.27727356412557325,
+      "MI_after": 0.3286067959668968
+    },
+    "Pressure": {
+      "pearson_before": 0.32865680516672113,
+      "pearson_after": 0.3504086687160074,
+      "MI_before": 0.25295955278757587,
+      "MI_after": 0.2691678770699162
+    },
+    "Precipitable Water": {
+      "pearson_before": 0.052617312569381076,
+      "pearson_after": 0.056275730866923064,
+      "MI_before": 0.5311357228874853,
+      "MI_after": 0.5299281182692388
+    },
+    "Solar Zenith Angle": {
+      "pearson_before": 0.15662200626433695,
+      "pearson_after": 0.15475185571035863,
+      "MI_before": 0.5119825708038448,
+      "MI_after": 0.5066589104124892
+    },
+    "Relative Humidity": {
+      "pearson_before": 0.4294969594554264,
+      "pearson_after": 0.45519837828008597,
+      "MI_before": 0.2926528002582156,
+      "MI_after": 0.3050725421330345
+    },
+    "Dew Point": {
+      "pearson_before": 0.14657966227815275,
+      "pearson_after": 0.13027663062193082,
+      "MI_before": 0.4082956236509192,
+      "MI_after": 0.4041670087623759
+    },
+    "Cloud Type": {
+      "pearson_before": 0.19732430528857342,
+      "pearson_after": 0.20462168840738795,
+      "MI_before": 0.08591366188489724,
+      "MI_after": 0.12911430294144965
+    },
+    "lag_1d": {
+      "pearson_before": 0.9709651920399293,
+      "pearson_after": 0.973684402738617,
+      "MI_before": 1.6521624798113201,
+      "MI_after": 1.7396709366739982
+    },
+    "lag_1w": {
+      "pearson_before": 0.8269980113321301,
+      "pearson_after": 0.9478826909592991,
+      "MI_before": 1.1576204950395157,
+      "MI_after": 1.2862226870138098
+    }
+  },
+  "windows_rows": {
+    "train": 6873,
+    "val": 859,
+    "test": 860
+  }
+}

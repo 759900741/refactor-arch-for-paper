@@ -1,0 +1,45 @@
+  归档旧权重 -> models\archive\jingmen_best_20261112_201139.pt
+  jingmen 超参来源：best_jingmen_bilstm_itransformer.json
+
+======================================================================
+阶段四：荆门市 2024 (jingmen)
+  F=22, L=96, H=4, 样本 训练/验证/测试=6868/837/837, y_orig∈[1205.1,2950.6]
+  超参：model_type=bilstm_itransformer, fusion=serial, hidden=128, d_model=96, n_heads=8, e_layers=2, d_ff=192, dropout=0.2, lstm_layers=2, lr=0.002, weight_decay=1e-05, batch=64, epochs=60, patience=12
+C:\Users\15pro\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\nn\functional.py:5560: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\builder\windows\pytorch\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:555.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+    ep01 loss=0.05855 val_rmse=0.04834 val_mape=3.538% lr=2.00e-03 (18.26s)
+    ep04 loss=0.00313 val_rmse=0.03816 val_mape=2.738% lr=1.99e-03 (16.28s)
+    ep06 loss=0.00186 val_rmse=0.03283 val_mape=2.555% lr=1.97e-03 (16.29s)
+    ep07 loss=0.00160 val_rmse=0.02948 val_mape=2.154% lr=1.95e-03 (16.3s)
+    ep10 loss=0.00133 val_rmse=0.02769 val_mape=2.123% lr=1.90e-03 (16.3s)
+    ep11 loss=0.00112 val_rmse=0.02819 val_mape=2.096% lr=1.87e-03 (16.29s)
+    ep14 loss=0.00093 val_rmse=0.02851 val_mape=1.912% lr=1.79e-03 (16.32s)
+    ep15 loss=0.00077 val_rmse=0.02589 val_mape=1.873% lr=1.76e-03 (16.42s)
+    ep16 loss=0.00080 val_rmse=0.02731 val_mape=2.020% lr=1.72e-03 (16.46s)
+    ep21 loss=0.00065 val_rmse=0.02479 val_mape=1.786% lr=1.52e-03 (16.4s)
+    ep22 loss=0.00064 val_rmse=0.02602 val_mape=1.751% lr=1.48e-03 (16.41s)
+    ep23 loss=0.00063 val_rmse=0.02466 val_mape=1.722% lr=1.44e-03 (16.44s)
+    ep26 loss=0.00061 val_rmse=0.02453 val_mape=1.767% lr=1.30e-03 (16.41s)
+    ep29 loss=0.00057 val_rmse=0.02450 val_mape=1.707% lr=1.15e-03 (16.36s)
+    ep30 loss=0.00059 val_rmse=0.02480 val_mape=1.684% lr=1.10e-03 (16.35s)
+    ep31 loss=0.00059 val_rmse=0.02460 val_mape=1.730% lr=1.05e-03 (16.36s)
+    ep32 loss=0.00056 val_rmse=0.02446 val_mape=1.657% lr=1.00e-03 (16.62s)
+    ep36 loss=0.00053 val_rmse=0.02394 val_mape=1.677% lr=8.04e-04 (15.41s)
+    ep40 loss=0.00055 val_rmse=0.02471 val_mape=1.652% lr=6.19e-04 (15.41s)
+    ep41 loss=0.00051 val_rmse=0.02440 val_mape=1.658% lr=5.75e-04 (15.41s)
+    ep43 loss=0.00052 val_rmse=0.02353 val_mape=1.632% lr=4.92e-04 (15.4s)
+    ep45 loss=0.00051 val_rmse=0.02377 val_mape=1.623% lr=4.14e-04 (15.59s)
+    ep46 loss=0.00051 val_rmse=0.02641 val_mape=1.806% lr=3.78e-04 (15.45s)
+    ep48 loss=0.00049 val_rmse=0.02381 val_mape=1.605% lr=3.12e-04 (15.44s)
+    ep51 loss=0.00049 val_rmse=0.02443 val_mape=1.656% lr=2.27e-04 (15.45s)
+    ep52 loss=0.00048 val_rmse=0.02326 val_mape=1.594% lr=2.04e-04 (15.46s)
+    ep53 loss=0.00048 val_rmse=0.02405 val_mape=1.591% lr=1.82e-04 (15.46s)
+    ep56 loss=0.00046 val_rmse=0.02315 val_mape=1.592% lr=1.32e-04 (15.5s)
+    ep57 loss=0.00047 val_rmse=0.02300 val_mape=1.572% lr=1.21e-04 (15.47s)
+    ep58 loss=0.00046 val_rmse=0.02348 val_mape=1.572% lr=1.12e-04 (15.89s)
+    ep60 loss=0.00046 val_rmse=0.02287 val_mape=1.561% lr=1.01e-04 (15.73s)
+  训练完成：最优 val val_mape=1.56062（ep60，60 轮，16.0 min，参数量 730.9k）
+  基线(持续预测) test RMSE=73.7 | 本模型 test RMSE=44.6 （提升 39.5%）
+  产物：models/jingmen_best.pt, preds/jingmen_{val,test}.npz, reports/metrics/jingmen_stage4.json, 图表 fig4_*_jingmen.png
+
+阶段四完成。

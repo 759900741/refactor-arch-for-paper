@@ -1,0 +1,47 @@
+{
+ "dataset": "jingmen",
+ "key": "informer",
+ "cfg": {
+  "hidden": 128,
+  "d_model": 96,
+  "n_heads": 4,
+  "e_layers": 2,
+  "d_ff": 192,
+  "dropout": 0.2,
+  "lstm_layers": 2,
+  "residual": true,
+  "head_mode": "target",
+  "use_bilstm": true,
+  "model_type": "informer",
+  "fusion": "serial",
+  "mv_hidden": null,
+  "mv_layers": 1,
+  "aux_weight": 0.0,
+  "lr": 0.003,
+  "weight_decay": 0.0,
+  "batch": 64,
+  "epochs": 60,
+  "patience": 12,
+  "seed": 42,
+  "device": "auto",
+  "monitor": "val_mape"
+ },
+ "cfg_hash": "7f7be380a3ab",
+ "val_mape_mean": 1.6839933333333335,
+ "val_mape_std": 0.19086162078555466,
+ "val_seeds": [
+  1.68505,
+  1.44971,
+  1.91722
+ ],
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "best_epoch": 33,
+ "params": 803524,
+ "test_mape": 3.48518856197938,
+ "test_rmse": 73.34879929325704,
+ "created_at": "2026-11-12 20:10:24"
+}

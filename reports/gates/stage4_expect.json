@@ -1,0 +1,16 @@
+{
+  "jingmen": {
+    "anchor_val_rmse": 0.07877742499113083,
+    "test_rmse_max": 0.1182,
+    "test_r2_min": 0.9,
+    "F_sel": 16,
+    "F_all": 29
+  },
+  "lanzhou": {
+    "anchor_val_rmse": 0.04056050255894661,
+    "test_rmse_max": 0.1,
+    "test_r2_min": 0.9,
+    "F_sel": 17,
+    "F_all": 27
+  }
+}

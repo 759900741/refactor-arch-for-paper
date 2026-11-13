@@ -1,0 +1,45 @@
+{
+ "dataset": "jingmen",
+ "key": "bilstm_itransformer",
+ "cfg": {
+  "hidden": 128,
+  "d_model": 96,
+  "n_heads": 8,
+  "e_layers": 2,
+  "d_ff": 192,
+  "dropout": 0.2,
+  "lstm_layers": 2,
+  "residual": true,
+  "head_mode": "target",
+  "use_bilstm": true,
+  "model_type": "bilstm_itransformer",
+  "fusion": "serial",
+  "mv_hidden": null,
+  "mv_layers": 1,
+  "aux_weight": 0.0,
+  "lr": 0.002,
+  "weight_decay": 1e-05,
+  "batch": 64,
+  "epochs": 60,
+  "patience": 12,
+  "seed": 42,
+  "device": "auto",
+  "monitor": "val_mape"
+ },
+ "cfg_hash": "b9b7b9a2e975",
+ "val_mape_mean": 1.59885,
+ "val_mape_std": 0.0382300000000001,
+ "val_seeds": [
+  1.56062,
+  1.63708
+ ],
+ "seeds": [
+  42,
+  43
+ ],
+ "best_epoch": 60,
+ "params": 730916,
+ "test_mape": 1.7183640312490116,
+ "test_rmse": 44.580076925259995,
+ "created_at": "2026-11-12 19:00:08"
+}

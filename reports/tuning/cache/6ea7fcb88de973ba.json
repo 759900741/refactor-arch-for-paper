@@ -1,0 +1,33 @@
+{
+ "fp": "6ea7fcb88de973ba",
+ "dataset": "jingmen",
+ "variant": "selorig",
+ "add_lag": false,
+ "protocol": "fast",
+ "cfg": {
+  "hidden": 64,
+  "dropout": 0.1,
+  "lstm_layers": 1,
+  "residual": true,
+  "lr": 0.0007,
+  "weight_decay": 1e-05,
+  "batch": 128,
+  "epochs": 24,
+  "patience": 6,
+  "seed": 42,
+  "aux_weight": 0.0
+ },
+ "fusion": "serial",
+ "model_type": "bilstm",
+ "val_mape": 2.49516,
+ "val_rmse": 0.030928,
+ "val_rmse_orig": 53.9838,
+ "best_epoch": 23,
+ "epochs_run": 24,
+ "secs": 0.77,
+ "oom_retry": false,
+ "params": 69060,
+ "backend": "cuda",
+ "cache_hit": false,
+ "created_at": "2026-11-12 16:54:57"
+}
