@@ -228,11 +228,16 @@ def process(name, cfg):
           f"（提升 {(mb_o['rmse']-mt_o['rmse'])/mb_o['rmse']*100:.1f}%）")
 
     # 保存权重与预测（state_dict 统一 .cpu()，保证跨 CPU/GPU 可安全加载）
+    # 双写：带 cfg_hash 的稳定名（不覆盖历史）+ 固定别名（兼容旧脚本/阶段六）
     state = {k: v.detach().cpu() for k, v in model.state_dict().items()}
-    torch.save(dict(state_dict=state, cfg=train_cfg, cfg_hash=T.cfg_hash(train_cfg),
-                    arch_version="v2", protocol="full", n_feat=len(d["cols"]), cols=d["cols"],
-                    L=L, H=H, y_range=[lo, hi], best_val=best_val),
-               os.path.join(MOD, f"{name}_best.pt"))
+    h_ck = T.cfg_hash(train_cfg)
+    payload = dict(state_dict=state, cfg=train_cfg, cfg_hash=h_ck,
+                   arch_version="v2", protocol="full", n_feat=len(d["cols"]), cols=d["cols"],
+                   L=L, H=H, y_range=[lo, hi], best_val=best_val, source=f"stage4/{name}")
+    ck_stable = os.path.join(MOD, f"{name}_{h_ck[:8]}.pt")
+    torch.save(payload, ck_stable)
+    import shutil as _sh
+    _sh.copy2(ck_stable, os.path.join(MOD, f"{name}_best.pt"))
     t_test = np.array([x.strftime("%Y-%m-%d %H:%M:%S") for x in d["time"]["test"]])
     t_val = np.array([x.strftime("%Y-%m-%d %H:%M:%S") for x in d["time"]["val"]])
     np.savez_compressed(os.path.join(PRD, f"{name}_test.npz"), y_true=yt, y_pred=pt,
@@ -244,6 +249,7 @@ def process(name, cfg):
     met = dict(dataset=name, label=cfg["label"], unit=cfg["unit"], L=L, H=H, stride=d["stride"],
                cols=d["cols"], target=d["target"], cfg=train_cfg,
                cfg_hash=T.cfg_hash(train_cfg), arch_version="v2", protocol="full",
+               ckpt=os.path.relpath(ck_stable, BASE).replace("\\", "/"),
                params=n_par, input_variant=cfg["variant"],
                best_epoch=int(hist["best_epoch"]), epochs_run=len(hist["epoch_sec"]),
                sec_per_epoch=round(ep_sec, 2), train_min=round(tmin, 2), y_range=[lo, hi],
@@ -341,6 +347,30 @@ def load_tuned_cfg(name):
     return {**T.DEFAULT_CFG, **best[2]["cfg"]}, os.path.basename(best[1])
 
 
+def done_state(name, train_cfg):
+    """产物是否已齐备且与当前超参指纹一致。返回 (是否可跳过, 原因)。"""
+    mp = os.path.join(MET, f"{name}_stage4.json")
+    if not os.path.exists(mp):
+        return False, "缺指标文件"
+    try:
+        m = json.load(open(mp, encoding="utf-8"))
+    except Exception:
+        return False, "指标文件损坏"
+    h = T.cfg_hash(train_cfg)
+    if m.get("cfg_hash") != h:
+        return False, f"超参指纹不一致（现有 {str(m.get('cfg_hash'))[:8]} ≠ 当前 {h[:8]}）"
+    if m.get("protocol") != "full":
+        return False, "旧版产物无 protocol 标记"
+    need = [os.path.join(MOD, f"{name}_{h[:8]}.pt"),
+            os.path.join(MOD, f"{name}_best.pt"),
+            os.path.join(PRD, f"{name}_val.npz"),
+            os.path.join(PRD, f"{name}_test.npz")]
+    for p in need:
+        if not os.path.exists(p):
+            return False, f"缺 {os.path.basename(p)}"
+    return True, f"指纹 {h[:8]} 一致，产物齐备"
+
+
 def archive_models(names):
     """把旧权重移入 models/archive/，避免「看起来还在、实际不可用」。"""
     ad = os.path.join(MOD, "archive")
@@ -362,11 +392,13 @@ def main():
     ap.add_argument("--tuned", action="store_true", default=True, help="使用调参定稿超参（默认）")
     ap.add_argument("--no-tuned", dest="tuned", action="store_false", help="回退默认超参")
     ap.add_argument("--no-archive", action="store_true")
+    ap.add_argument("--if-done", action="store_true",
+                    help="产物齐备且超参指纹一致时跳过重训（幂等复用）")
     a = ap.parse_args()
     only = a.dataset_opt or a.dataset
     names = [only] if only else list(CONFIG.keys())
 
-    if not a.no_archive:
+    if not a.no_archive and not a.if_done:
         archive_models(names)
 
     cfgs = []
@@ -380,7 +412,16 @@ def main():
         cfgs.append(c)
 
     fig_arch(os.path.join(FIG, "fig4_arch.png"), cfgs[0]["train_cfg"])
-    mets = [process(n, c) for n, c in zip(names, cfgs)]
+    mets = []
+    for n, c in zip(names, cfgs):
+        if a.if_done:
+            ok, why = done_state(n, c["train_cfg"])
+            if ok:
+                print(f"  [skip] {n}：{why}，直接复用 models/{n}_best.pt 与 preds/")
+                mets.append(json.load(open(os.path.join(MET, f"{n}_stage4.json"), encoding="utf-8")))
+                continue
+            print(f"  [run ] {n}：{why}")
+        mets.append(process(n, c))
     if not only:
         write_report(mets)
     print("\n阶段四完成。")

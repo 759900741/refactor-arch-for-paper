@@ -45,6 +45,17 @@
 - MIV 两视角秩相关>0.99，筛选结论稳健。
 - 训练器 src/trainer.py 为阶段四/五共用接口（fit_model 按 cfg 字典，供 TE-RIME 调用）。
 
+## 持久化与复用约定（用户要求，2026-11-13）
+- 统一审计入口：`py -3.8 src/stage_status.py --write` → `reports/state.json` + `reports/stage_status.md`（四态：已保存/不完整/过期/缺失 + 复用手册）。
+- 权重命名：`models/{ds}_{key}_{cfg_hash前8}.pt`（稳定名，永不覆盖）+ `{ds}_best.pt`（活跃别名）。
+- 「最优解」三件套：cfg（含 cfg_hash）+ 指标 + 预测/权重；只有 cfg 不算定稿。
+- 幂等：阶段四 `--if-done`；阶段五台账自动回放；阶段六 v2 缓存键含 cfg_hash；tuner 缓存同 cfg 0 秒命中。
+- 定稿被替换时必须把下游 `tuned_*.json` 标 `stale`，不得静默复用。
+
 ## 目录约定
 - 代码 `src/`；中间数据 `data/processed/`；报告 `reports/`；阶段规格/方案在项目根目录 `*.md`。
 - 中文输出；图表需设中文字体（Microsoft YaHei/SimHei）。
+
+## 分支与版本控制约定（用户明确要求）
+- **始终在主分支（main）上运行和操作**。
+- 未经用户明确批准，**不得切换分支、创建新分支或执行影响其他分支的操作**；如需切换，先说明原因并等待确认。

@@ -4,38 +4,57 @@
  "cfg": {
   "model_type": "bilstm_itransformer",
   "hidden": 128,
-  "d_model": 96,
+  "d_model": 64,
   "n_heads": 4,
-  "e_layers": 2,
-  "d_ff": 192,
-  "dropout": 0.2,
+  "e_layers": 1,
+  "d_ff": 256,
+  "dropout": 0.3,
   "lstm_layers": 2,
   "residual": true,
   "head_mode": "target",
   "use_bilstm": true,
   "fusion": "serial",
   "lr": 0.002,
-  "weight_decay": 1e-05,
+  "weight_decay": 0.0,
   "batch": 128,
   "epochs": 60,
   "patience": 12,
   "seed": 42,
   "aux_weight": 0.0
  },
- "cfg_hash": "0b50f7bb8793",
- "val_mape_fast": 2.3153,
- "val_mape_full_mean": 1.6189,
- "val_mape_full_std": 0.0242,
+ "cfg_hash": "d80a5fa8a3a3",
+ "verification_identity": {
+  "dataset": "jingmen",
+  "key": "bilstm_itransformer",
+  "protocol": {
+   "tag": "full",
+   "n_train": null,
+   "n_val": null,
+   "epochs": 60,
+   "patience": 12
+  },
+  "fingerprints": [
+   "bd15c3cb44f25c02",
+   "eac13443fb94f67b"
+  ],
+  "seeds": [
+   42,
+   43
+  ]
+ },
+ "val_mape_fast": 2.2044,
+ "val_mape_full_mean": 1.7064,
+ "val_mape_full_std": 0.0281,
  "val_full_seeds": [
-  1.59472,
-  1.64314
+  1.67828,
+  1.7345
  ],
  "seeds": [
   42,
   43
  ],
  "source": "terime",
- "space_hash": "0c687fcd22a9",
- "evals": 500,
- "created_at": "2026-11-13 01:11:54"
+ "space_hash": "028bf33c3cd5",
+ "evals": 100,
+ "created_at": "2026-11-13 16:28:10"
 }

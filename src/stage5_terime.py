@@ -41,6 +41,24 @@ COLOR = {"pso": "#4299e1", "bwo": "#38a169", "gwo": "#d69e2e",
          "rime": "#805ad5", "terime": "#c53030"}
 
 
+def write_json(path, value):
+    """Replace a complete JSON checkpoint atomically."""
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    temporary = path + ".tmp"
+    with open(temporary, "w", encoding="utf-8") as stream:
+        json.dump(value, stream, ensure_ascii=False, indent=2)
+    os.replace(temporary, path)
+
+
+def verification_identity(dataset, key, cfg, seeds):
+    """Identify the candidate, data, backend and every full-training seed."""
+    backend = str(T.resolve_device(cfg))
+    return dict(dataset=dataset, key=key, protocol=U.FULL.as_dict(),
+                fingerprints=[U.fingerprint(dataset, "selorig", False,
+                              U._effective(cfg, dataset, U.FULL, sd), U.FULL, backend)
+                              for sd in seeds], seeds=list(seeds))
+
+
 def decode_cfg(u, dims, key):
     raw = U.repair(U.join_space(dims, u), key)
     raw.setdefault("model_type", "bilstm_itransformer" if "bilstm_itransformer" in key else key)
@@ -48,42 +66,111 @@ def decode_cfg(u, dims, key):
 
 
 def run_one(dataset, key, algo, evals, pop, seed, protocol=U.FAST, patience=None,
-            warmstart=False, tag=None):
+            warmstart=False, tag=None, output_dir=None, train_seed=None,
+            restart_after=None, deadline_at=None, cache_dir=None, refine=True):
     dims = U.space_for(key)
-    cache = {}
+    train_seed = seed if train_seed is None else train_seed
+    folder = output_dir or MET
+    suffix = f"_{tag}" if tag else ""
+    path = os.path.join(folder, f"stage5_{dataset}_{key}_{algo}{suffix}.json")
+    ledger_path = path.replace(".json", "_ledger.json")
+    space_hash = hashlib.sha1(json.dumps([d.to_json() for d in dims],
+                                       sort_keys=True).encode()).hexdigest()[:12]
+    # restart_after 只对 TE-RIME 生效（S6 准对立重启），基线算法保持原样
+    restart_eff = restart_after if algo == "terime" else None
+    request = dict(dataset=dataset, key=key, algo=algo, budget=evals, pop=pop,
+                   search_seed=seed, train_seed=train_seed, protocol=protocol.as_dict(),
+                   space_hash=space_hash, restart_after=restart_eff,
+                   algorithm_version=MH.ALGORITHM_VERSION, warmstart=warmstart,
+                   patience=patience, data=U._dcache_fp(dataset, "selorig", False),
+                   code=U.CODE_VERSION, backend=str(T.resolve_device()),
+                   isolate=os.path.basename(cache_dir.rstrip("/\\")) if cache_dir else None)
+    ledger = dict(request=request, records=[], started_at=time.time())
+    if os.path.exists(ledger_path):
+        with open(ledger_path, encoding="utf-8") as stream:
+            ledger = json.load(stream)
+        if ledger["request"] != request:
+            raise ValueError("Checkpoint request differs; choose a new output directory/tag")
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as stream:
+            previous = json.load(stream)
+        if previous.get("complete") and previous.get("request") == request:
+            print(f"  [completed] {algo} {previous['evals']}/{evals}", flush=True)
+            return previous
+    cursor = 0
+
+    def identity(u):
+        cfg = decode_cfg(np.asarray(u), dims, key)
+        return T.cfg_hash({**T.DEFAULT_CFG, **cfg})
 
     def f(u):
-        k = tuple(np.round(u, 8))
-        if k in cache:
-            return cache[k]
+        nonlocal cursor
         cfg = decode_cfg(np.asarray(u), dims, key)
-        r = U.evaluate(dataset, cfg, protocol, seed=seed, log=lambda *a, **kw: None)
-        cache[k] = float(r["val_mape"])
-        return cache[k]
+        cfg_id = identity(u)
+        if cursor < len(ledger["records"]):
+            saved = ledger["records"][cursor]
+            if saved["cfg_hash"] != cfg_id or not np.array_equal(saved["u"], u):
+                raise ValueError("Deterministic checkpoint replay diverged")
+            cursor += 1
+            return saved["val_mape"]
+        if deadline_at is not None and time.time() >= deadline_at:
+            raise T.TrainingDeadlineExceeded({})
+        result = U.evaluate(dataset, cfg, protocol, seed=train_seed,
+                            log=lambda *a, **kw: None, deadline_at=deadline_at,
+                            cache_dir=cache_dir)
+        record = dict(index=cursor + 1, u=np.asarray(u).tolist(), cfg_hash=cfg_id,
+                      cfg=result["cfg"], val_mape=float(result["val_mape"]),
+                      cache_hit=result["cache_hit"], training_secs=result["secs"],
+                      fingerprint=result["fp"], elapsed_secs=time.time() - ledger["started_at"])
+        ledger["records"].append(record)
+        cursor += 1
+        write_json(ledger_path, ledger)
+        print(f"    {algo} {cursor}/{evals}: val={record['val_mape']:.5f}% "
+              f"cache={record['cache_hit']} train={record['training_secs']:.1f}s", flush=True)
+        return record["val_mape"]
 
     x0 = None
     if warmstart:
-        cfgs = U.top_cfgs(dataset, key, pop)
-        x0 = [U.u_for(dims, cfg) for cfg in cfgs]
+        if "warmstart_u" not in ledger:
+            cfgs = U.top_cfgs(dataset, key, pop)
+            ledger["warmstart_u"] = [U.u_for(dims, cfg).tolist() for cfg in cfgs]
+            write_json(ledger_path, ledger)
+        x0 = ledger["warmstart_u"]
         print(f"  warm-start：注入 {len(x0)} 个 fast 最优配置作为初始种群")
 
     print(f"\n[{CNAME[algo]}] {dataset} | {key} | dims={len(dims)} | pop={pop} | 预算 {evals} 次唯一评估")
-    r = MH.run(algo, len(dims), f, pop=pop, iters=max(1, evals // max(pop, 1)), seed=seed,
-               budget=evals, patience=patience, x0=x0)
+    try:
+        r = MH.run(algo, len(dims), f, pop=pop, iters=max(1, evals // max(pop, 1)), seed=seed,
+                   budget=evals, patience=patience, x0=x0, identity=identity,
+                   restart_after=restart_eff,
+                   grid=[len(d.values) for d in dims], refine=refine)
+    except T.TrainingDeadlineExceeded as error:
+        write_json(path.replace(".json", "_interrupted.json"),
+                   dict(request=request, status="incomplete", history=error.history,
+                        completed_evals=len(ledger["records"]), stopped_at=time.time()))
+        raise
     best_cfg = decode_cfg(r["best_u"], dims, key)
     out = dict(dataset=dataset, key=key, algo=algo, model_type=best_cfg.get("model_type"),
                best_fit=r["best_fit"], best_cfg=T.canonical_cfg({**T.DEFAULT_CFG, **best_cfg}),
-               history=r["history"], evals=r["evals"], wall_sec=r["wall_sec"], seed=seed,
+               history=r["history"], evals=r["evals"],
+               wall_sec=round(time.time() - ledger["started_at"], 2),
+               execution_wall_sec=r["wall_sec"], seed=seed,
                pop=pop, iters=r["iters"], budget=r["budget"], protocol=protocol.tag,
-               space_hash=hashlib.sha1(json.dumps([d.to_json() for d in dims],
-                                                 sort_keys=True).encode()).hexdigest()[:12],
+               space_hash=space_hash, train_seed=train_seed, request=request,
+               algorithm_version=r["algorithm_version"], proposals=r["proposals"],
+               initial_u=r["initial_u"], restarts=r["restarts"],
+               probes=r.get("probes", 0), qobl_restarts=r.get("qobl_restarts", 0),
+               op_stats=r.get("op_stats"), op_family_log=r.get("op_family_log"),
+               complete=r["evals"] == evals,
+               cache_hits=sum(x["cache_hit"] for x in ledger["records"]),
+               new_trainings=sum(not x["cache_hit"] for x in ledger["records"]),
+               train_secs=round(sum(x["training_secs"] for x in ledger["records"]
+                                    if not x["cache_hit"]), 1),
+               evaluation_history=ledger["records"],
                created_at=time.strftime("%Y-%m-%d %H:%M:%S"))
     print(f"  -> best val_mape={r['best_fit']:.4f}%  evals={r['evals']}  {r['wall_sec']:.0f}s")
     print(f"     最优 cfg: {U._brief(best_cfg)}")
-    suffix = f"_{tag}" if tag else ""
-    p = os.path.join(MET, f"stage5_{dataset}_{key}_{algo}{suffix}.json")
-    with open(p, "w", encoding="utf-8") as fp:
-        json.dump(out, fp, ensure_ascii=False, indent=1)
+    write_json(path, out)
     return out
 
 
@@ -98,11 +185,19 @@ def report(dataset, key):
     rows.sort(key=lambda r: r["best_fit"])
     ref = rows[0]["best_fit"]
 
-    lines = [f"# 阶段五 优化算法对比 —— {U.LABEL[dataset]} / {U._tag_of(key)}\n",
-             f"> 生成：{time.strftime('%Y-%m-%d %H:%M:%S')} ｜ 同空间、同评估口径、同预算\n",
-             "| 算法 | 最优验证 MAPE(%) | 相对最优 | 唯一评估次数 | 达到 1.02×最优 所需评估 | 耗时(s) | 最优超参 |",
-             "|---|---|---|---|---|---|---|"]
-    thr = ref * 1.02
+    # 各算法「最优解」轻量定稿：把 cfg + 关键口径单独落一份，便于归档/跨机复用
+    # （整份 stage5_*.json 含逐次台账，体积大；摘要文件小到可直接读）
+    for r in rows:
+        write_json(os.path.join(U.TUN, f"stage5_best_{dataset}_{key}_{r['algo']}.json"),
+                   dict(dataset=dataset, key=key, algo=r["algo"], algo_name=CNAME[r["algo"]],
+                        best_fit=round(float(r["best_fit"]), 5), best_cfg=r["best_cfg"],
+                        space_hash=r.get("space_hash"), budget=r.get("budget"),
+                        evals=r.get("evals"), pop=r.get("pop"), iters=r.get("iters"),
+                        protocol=r.get("protocol"), seed=r.get("seed"),
+                        new_trainings=r.get("new_trainings"), train_secs=r.get("train_secs"),
+                        algorithm_version=r.get("algorithm_version"),
+                        source=f"reports/metrics/stage5_{dataset}_{key}_{r['algo']}.json",
+                        created_at=time.strftime("%Y-%m-%d %H:%M:%S")))
 
     def evals_to(h, t):
         for x in h:
@@ -110,11 +205,33 @@ def report(dataset, key):
                 return x["evals"]
         return h[-1]["evals"]
 
+    def auc(h):
+        """best-so-far 相对评估数的归一化面积（越小越快），用于 anytime 比较。"""
+        xs = np.array([x["evals"] for x in h], dtype=float)
+        ys = np.array([x["best_fit"] for x in h], dtype=float)
+        span = max(xs[-1] - xs[0], 1.0)
+        base = max(ys[0] - ys[-1], 1e-9)
+        return float(np.trapz((ys[0] - ys) / base, xs) / span)
+
+    e101 = {r["algo"]: evals_to(r["history"], ref * 1.01) for r in rows}
+    e102 = {r["algo"]: evals_to(r["history"], ref * 1.02) for r in rows}
+
+    lines = [f"# 阶段五 优化算法对比 —— {U.LABEL[dataset]} / {U._tag_of(key)}\n",
+             f"> 生成：{time.strftime('%Y-%m-%d %H:%M:%S')} ｜ 同空间、同初始种群、同评估口径、同预算\n",
+             f"> 算法版本：{rows[0].get('algorithm_version', '—')} ｜ 空间指纹：{rows[0].get('space_hash', '—')}"
+             f" ｜ 缓存：{'各算法独立（同等初始快照）' if rows[0].get('request', {}).get('isolate') else '共享'}\n",
+             "| 算法 | 最优验证 MAPE(%) | 相对最优 | 唯一评估 | 达1.01×评估 | 达1.02×评估 | 曲线AUC | 新训练数 | 训练耗时(s) | 最优超参 |",
+             "|---|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         lines.append(f"| {CNAME[r['algo']]} | {r['best_fit']:.4f} | "
                      f"{(r['best_fit'] - ref) / ref * 100:+.2f}% | {r['evals']} | "
-                     f"{evals_to(r['history'], thr)} | {r['wall_sec']:.0f} | "
+                     f"{e101[r['algo']]} | {e102[r['algo']]} | {auc(r['history']):.3f} | "
+                     f"{r.get('new_trainings', '—')} | {r.get('train_secs', r['wall_sec']):.0f} | "
                      f"{U._brief(r['best_cfg'])} |")
+    lines.append("")
+    lines.append("> 说明：`达1.01×/1.02×评估` 为首次达到「全局最优 ×1.01 / ×1.02」所需唯一评估数；"
+                 "`曲线AUC` 为 best-so-far 归一化面积（越小=越早收敛）；"
+                 "`新训练数/训练耗时` 为真实发生的训练，排除缓存命中，用于等算力比较。")
     lines.append("")
     with open(os.path.join(BASE, "reports", "stage5_results.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -124,7 +241,7 @@ def report(dataset, key):
     import matplotlib.pyplot as plt
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei", "DejaVu Sans"]
     plt.rcParams["axes.unicode_minus"] = False
-    fig, ax = plt.subplots(1, 2, figsize=(12, 4.2))
+    fig, ax = plt.subplots(1, 3, figsize=(16.5, 4.2))
     for r in rows:
         h = r["history"]
         ax[0].plot([x["evals"] for x in h], [x["best_fit"] for x in h],
@@ -142,6 +259,15 @@ def report(dataset, key):
     ax[1].set_title("各算法最终精度（越低越好）")
     ax[1].set_xlim(0, max(vals) * 1.15)
     ax[1].grid(axis="x", alpha=.25)
+
+    e_vals = [e102[r["algo"]] for r in rows][::-1]
+    ax[2].barh(names, e_vals, color=cols)
+    for i, v in enumerate(e_vals):
+        ax[2].text(v, i, f" {v}", va="center", fontsize=8)
+    ax[2].set_xlabel("达到最优×1.02 所需唯一评估次数")
+    ax[2].set_title("达阈效率（越小越快）")
+    ax[2].set_xlim(0, max(e_vals) * 1.2)
+    ax[2].grid(axis="x", alpha=.25)
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, f"fig5_convergence_{dataset}.png"), dpi=150)
     plt.close(fig)
@@ -164,9 +290,10 @@ def verify_full(dataset, key, cfg, seeds=(42, 43)):
 def arbitrate(dataset, key, te_cfg, te_fast_val, space_hash, te_evals):
     """full 复验 + 定稿仲裁：TE-RIME 更优才替换现有定稿，否则沿用。可断点（已有 full 结果则跳过）。"""
     best_te = os.path.join(U.TUN, f"best_{dataset}_{key}_terime.json")
+    expected_identity = verification_identity(dataset, key, te_cfg, (42, 43))
     if os.path.exists(best_te):
         b = json.load(open(best_te, encoding="utf-8"))
-        if b.get("val_mape_full_mean") is not None:
+        if b.get("val_mape_full_mean") is not None and b.get("verification_identity") == expected_identity:
             print(f"  [仲裁] 已有 full 复验结果，跳过（val_mape_full_mean={b['val_mape_full_mean']}）")
             return b
     print(f"\n[仲裁] {dataset} | {key} | full×{len((42, 43))} seed 复验中...")
@@ -181,6 +308,7 @@ def arbitrate(dataset, key, te_cfg, te_fast_val, space_hash, te_evals):
     replace = (base is None) or (m < base - 1e-4)
 
     te_note = dict(dataset=dataset, key=key, cfg=te_cfg, cfg_hash=T.cfg_hash(te_cfg),
+                   verification_identity=expected_identity,
                    val_mape_fast=round(float(te_fast_val), 4),
                    val_mape_full_mean=round(m, 4), val_mape_full_std=round(s, 4),
                    val_full_seeds=vals, seeds=[42, 43], source="terime",
@@ -214,6 +342,19 @@ def arbitrate(dataset, key, te_cfg, te_fast_val, space_hash, te_evals):
         with open(existing_path, "w", encoding="utf-8") as f:
             json.dump(ex, f, ensure_ascii=False, indent=1)
         print(f"  => 替换现有定稿：TE-RIME {m:.4f} < 现有 {base if base is not None else 'N/A'}")
+
+        # 定稿被替换后，tuned_*.json 与 preds 仍是旧 cfg 的产物。若不标记，
+        # 阶段六会静默复用到旧配置的结论 —— 这里显式置 stale 并要求重跑 finalize。
+        tp = os.path.join(MET, f"tuned_{dataset}_{key}.json")
+        if os.path.exists(tp):
+            old = json.load(open(tp, encoding="utf-8"))
+            old["stale"] = True
+            old["stale_reason"] = (f"定稿已替换为 TE-RIME {T.cfg_hash(te_cfg)[:8]}"
+                                   f"（full {m:.4f}%），需重跑 tuner.finalize 更新 test 与预测")
+            old["superseded_by"] = T.cfg_hash(te_cfg)
+            with open(tp, "w", encoding="utf-8") as f:
+                json.dump(old, f, ensure_ascii=False, indent=1)
+            print(f"     已标记 tuned_{dataset}_{key}.json 为 stale（需重跑 finalize）")
     else:
         print(f"  => 沿用现有定稿：TE-RIME {m:.4f} 未优于现有 {base if base is not None else 'N/A'}")
     return te_note
@@ -234,6 +375,11 @@ def main():
     ap.add_argument("--arbitrate", action="store_true", help="对 TE-RIME 长跑最优做 full 复验 + 定稿仲裁")
     ap.add_argument("--tag", default=None, help="结果文件名后缀（长跑用 --tag long，避免覆盖表5等预算结果）")
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--isolate", action="store_true",
+                    help="每个算法使用独立缓存目录（同等初始快照），消除缓存热度对耗时的污染")
+    ap.add_argument("--restart-after", type=int, default=3,
+                    help="TE-RIME 连续停滞多少完整代触发准对立重启（S6），0/负数关闭")
+    ap.add_argument("--no-refine", action="store_true", help="关闭 TE-RIME 坐标精修（S5，消融用）")
     a = ap.parse_args()
     key = U.model_key(a.model, a.fusion)
     if a.report:
@@ -250,9 +396,18 @@ def main():
         arbitrate(a.dataset, key, te["best_cfg"], te["best_fit"], te["space_hash"], te["evals"])
         return
     algos = ALGOS if a.algo == "all" else [a.algo]
+    restart = a.restart_after if a.restart_after and a.restart_after > 0 else None
     for al in algos:
+        cdir = None
+        if a.isolate:
+            cdir = os.path.join(U.TUN, "cache_stage5", f"{a.dataset}_{key}_{al}_s{a.seed}")
+            if not os.path.isdir(cdir):
+                raise SystemExit(f"  隔离缓存目录不存在：{cdir}\n"
+                                 f"  请先把统一缓存快照复制到该目录（模拟五算法同等起跑线），"
+                                 f"例如：cp -r reports/tuning/cache/. {cdir}/")
         run_one(a.dataset, key, al, a.evals, a.pop, a.seed, U.PROTOCOLS[a.protocol],
-                a.patience, warmstart=a.warmstart, tag=a.tag)
+                a.patience, warmstart=a.warmstart, tag=a.tag,
+                restart_after=restart, cache_dir=cdir, refine=not a.no_refine)
     report(a.dataset, key)
 
 

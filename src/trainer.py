@@ -53,11 +53,13 @@ FREQ_DELTA = {"15min": timedelta(minutes=15), "30min": timedelta(minutes=30),
 
 def _load_array(name, split, variant, add_lag=False):
     """按变体载入 X/y/cols。variant: sel / selorig / full；add_lag 仅在 sel/selorig 下追加 lag 两列。"""
-    st = json.load(open(os.path.join(P, f"{name}_stats.json"), encoding="utf-8"))
+    with open(os.path.join(P, f"{name}_stats.json"), encoding="utf-8") as stream:
+        st = json.load(stream)
     if variant in ("sel", "selorig"):
         f = np.load(os.path.join(MVD, f"{name}_{split}_{variant}.npz"), allow_pickle=True)
         X, y = f["X"].astype(np.float32), f["y"].astype(np.float32)
-        mst = json.load(open(os.path.join(MVD, f"{name}_miv_stats.json"), encoding="utf-8"))
+        with open(os.path.join(MVD, f"{name}_miv_stats.json"), encoding="utf-8") as stream:
+            mst = json.load(stream)
         cols = list(mst["selected"])
         if add_lag:
             full = np.load(os.path.join(P, "windows", f"{name}_{split}.npz"), allow_pickle=True)
@@ -86,7 +88,7 @@ def _load_array(name, split, variant, add_lag=False):
     raise ValueError(f"未知 variant: {variant}")
 
 
-def load_split(name, variant="sel", add_lag=False):
+def load_split(name, variant="sel", add_lag=False, need_test=True):
     """载入滑窗数据并补出每窗口的结束时刻。
 
     variant="sel"     -> RPCA 低秩矩阵 L 的选中列（去噪输入）
@@ -94,13 +96,16 @@ def load_split(name, variant="sel", add_lag=False):
     variant="full"    -> 原始矩阵全特征（消融 A0 用）
     add_lag=True      -> 在 sel/selorig 基础上追加 lag_1d/lag_1w 两列（消融 A5 用）
     """
-    st = json.load(open(os.path.join(P, f"{name}_stats.json"), encoding="utf-8"))
-    mst = json.load(open(os.path.join(MVD, f"{name}_miv_stats.json"), encoding="utf-8"))
+    with open(os.path.join(P, f"{name}_stats.json"), encoding="utf-8") as stream:
+        st = json.load(stream)
+    with open(os.path.join(MVD, f"{name}_miv_stats.json"), encoding="utf-8") as stream:
+        mst = json.load(stream)
     L, H, stride = int(st["L"]), int(st["H"]), int(st["stride"])
     dt = FREQ_DELTA[st["time_report"]["freq"]]
     d = dict(L=L, H=H, stride=stride, target=mst["target"], cols=[], variant=variant,
              add_lag=add_lag, y_range=None, time={})
-    for s in ("train", "val", "test"):
+    splits = ("train", "val", "test") if need_test else ("train", "val")
+    for s in splits:
         X, y, cols = _load_array(name, s, variant, add_lag)
         d[s] = dict(X=X, y=y)
         d["cols"] = cols
@@ -157,7 +162,15 @@ def auto_batch(cfg, dataset=None):
     return 128
 
 
-def fit_model(d, cfg, log=print, monitor=None):
+class TrainingDeadlineExceeded(TimeoutError):
+    """A bounded experiment stopped before completing its training protocol."""
+
+    def __init__(self, history):
+        super().__init__("Training deadline reached before protocol completion")
+        self.history = history
+
+
+def fit_model(d, cfg, log=print, monitor=None, deadline_at=None):
     """训练至多 cfg['epochs'] 轮，按 monitor 早停并回滚最优权重。
 
     monitor:
@@ -189,6 +202,8 @@ def fit_model(d, cfg, log=print, monitor=None):
                 lr=[], epoch_sec=[], monitor=monitor)
     best = float("inf"); best_state = None; wait = 0; ep_best = 0
     for ep in range(int(cfg["epochs"])):
+        if deadline_at is not None and time.time() >= deadline_at:
+            raise TrainingDeadlineExceeded(hist)
         t0 = time.perf_counter()
         model.train()
         perm = torch.randperm(n, device=device)

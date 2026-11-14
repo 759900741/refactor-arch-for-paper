@@ -1,7 +1,7 @@
 {
   "dataset": "lanzhou",
   "label": "兰州市2023",
-  "file": "兰州用电负荷数据.csv",
+  "file": "兰州用电负荷数据_异常处理后.csv",
   "time_report": {
     "n_raw": 8760,
     "parse_fail": 0,

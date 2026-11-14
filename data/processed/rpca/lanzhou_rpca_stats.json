@@ -46,44 +46,44 @@
       "lam": 0.006031104206885666,
       "iters": 26,
       "converged": true,
-      "recon_rel_err": 8.966715376929361e-07,
-      "sparsity": 0.047907269993695135,
-      "signal_ret": 0.9893149354413292,
+      "recon_rel_err": 7.311130160868053e-07,
+      "sparsity": 0.047383481255153015,
+      "signal_ret": 1.6232206929628594,
       "anomaly_overlap": 0.0136986301369863,
-      "anomaly_ratio": 1.4936073367535445
+      "anomaly_ratio": 1.266614078163782
     },
     {
       "c": 1.0,
       "lam": 0.012062208413771333,
       "iters": 30,
       "converged": true,
-      "recon_rel_err": 7.034080331315642e-07,
-      "sparsity": 0.21814830981133906,
-      "signal_ret": 1.1492074234919827,
-      "anomaly_overlap": 0.0547945205479452,
-      "anomaly_ratio": 1.6837103718751734
+      "recon_rel_err": 7.178650968458238e-07,
+      "sparsity": 0.21898249187642466,
+      "signal_ret": 1.211112079636665,
+      "anomaly_overlap": 0.0136986301369863,
+      "anomaly_ratio": 1.4448388759155464
     },
     {
       "c": 1.5,
       "lam": 0.018093312620657,
-      "iters": 20,
+      "iters": 19,
       "converged": true,
-      "recon_rel_err": 4.659297830875898e-07,
-      "sparsity": 0.7362529705611329,
-      "signal_ret": 1.0844518287815594,
-      "anomaly_overlap": 0.0547945205479452,
-      "anomaly_ratio": 3.16138052972985
+      "recon_rel_err": 6.70481513745815e-07,
+      "sparsity": 0.7473398321936079,
+      "signal_ret": 1.0677501281543478,
+      "anomaly_overlap": 0.0136986301369863,
+      "anomaly_ratio": 1.8649166982103917
     },
     {
       "c": 2.0,
       "lam": 0.024124416827542666,
       "iters": 18,
       "converged": true,
-      "recon_rel_err": 9.252341494147227e-07,
-      "sparsity": 0.9110626121538387,
-      "signal_ret": 1.0510331960574382,
-      "anomaly_overlap": 0.0410958904109589,
-      "anomaly_ratio": 4.824581716276026
+      "recon_rel_err": 6.277049332443399e-07,
+      "sparsity": 0.9188709442746981,
+      "signal_ret": 1.0300885107624551,
+      "anomaly_overlap": 0.0136986301369863,
+      "anomaly_ratio": 2.190853492594786
     }
   ],
   "c_selected": 2.0,
@@ -93,105 +93,105 @@
   "converged": true,
   "rank_L": 15,
   "k": 5,
-  "cum_energy": 0.9589643357366328,
+  "cum_energy": 0.9638273705593853,
   "energy_threshold": 0.95,
-  "removed_energy": 0.0917993196475599,
-  "load_corr_after": 0.9799600493217647,
-  "S_sparsity": 0.9110626121538387,
-  "signal_ret_mean": 1.0389541102248325,
-  "anomaly_overlap": 0.0410958904109589,
-  "anomaly_ratio": 4.824581716276026,
+  "removed_energy": 0.0632629287040301,
+  "load_corr_after": 0.9951366420055597,
+  "S_sparsity": 0.9188709442746981,
+  "signal_ret_mean": 1.0252181819882944,
+  "anomaly_overlap": 0.0136986301369863,
+  "anomaly_ratio": 2.190853492594786,
   "n_anomaly_train": 73,
   "signal_before_after": {
     "electricity(KW)": {
-      "pearson_before": 0.999999999999998,
-      "pearson_after": 0.9799600493217647,
-      "MI_before": 7.577746957989565,
-      "MI_after": 6.730477794426671
+      "pearson_before": 0.999999999999996,
+      "pearson_after": 0.9951366420055597,
+      "MI_before": 7.577892454861383,
+      "MI_after": 6.91390978294398
     },
     "cold(ton)": {
-      "pearson_before": 0.3381433642329074,
-      "pearson_after": 0.3448454646323547,
-      "MI_before": 0.7611834345046233,
-      "MI_after": 0.7517546703931366
+      "pearson_before": 0.7168888061882118,
+      "pearson_after": 0.7229640801627288,
+      "MI_before": 0.6181271930538825,
+      "MI_after": 0.6150240890773819
     },
     "heat(mmBTU)": {
-      "pearson_before": 0.46745251006022787,
-      "pearson_after": 0.49185987814686477,
-      "MI_before": 0.7273379814284251,
-      "MI_after": 0.716086433390152
+      "pearson_before": 0.689688160160322,
+      "pearson_after": 0.7259943557486981,
+      "MI_before": 0.6871611834632789,
+      "MI_after": 0.68310674249215
     },
     "Temperature": {
-      "pearson_before": 0.39086336425509804,
-      "pearson_after": 0.39775350649629554,
-      "MI_before": 0.47644360696372257,
-      "MI_after": 0.47682203641831666
+      "pearson_before": 0.6522791656872695,
+      "pearson_after": 0.6605535788261718,
+      "MI_before": 0.4539182773161823,
+      "MI_after": 0.46565781732155465
     },
     "Wind Speed": {
-      "pearson_before": 0.050465249953669924,
-      "pearson_after": 0.0810008731473615,
-      "MI_before": 0.041760981509336936,
-      "MI_after": 0.05600908510143565
+      "pearson_before": 0.045840650394010855,
+      "pearson_after": 0.08248028083738856,
+      "MI_before": 0.034354129021371804,
+      "MI_after": 0.041083503455126014
     },
     "Wind Direction": {
-      "pearson_before": 0.1539730193366926,
-      "pearson_after": 0.16037534586295066,
-      "MI_before": 0.10044081588581832,
-      "MI_after": 0.1064417289716868
+      "pearson_before": 0.11367533899268079,
+      "pearson_after": 0.12129759529388608,
+      "MI_before": 0.06523342677559896,
+      "MI_after": 0.07292445301321049
     },
     "Surface Albedo": {
-      "pearson_before": 0.3738261519044295,
-      "pearson_after": 0.3842941081975159,
-      "MI_before": 0.27727356412557325,
-      "MI_after": 0.3286067959668968
+      "pearson_before": 0.317205879085596,
+      "pearson_after": 0.3395681274243472,
+      "MI_before": 0.2134195336845066,
+      "MI_after": 0.2626297334116643
     },
     "Pressure": {
-      "pearson_before": 0.32865680516672113,
-      "pearson_after": 0.3504086687160074,
-      "MI_before": 0.25295955278757587,
-      "MI_after": 0.2691678770699162
+      "pearson_before": 0.3531338507269106,
+      "pearson_after": 0.37291263889591464,
+      "MI_before": 0.2235445804598668,
+      "MI_after": 0.23118760399079452
     },
     "Precipitable Water": {
-      "pearson_before": 0.052617312569381076,
-      "pearson_after": 0.056275730866923064,
-      "MI_before": 0.5311357228874853,
-      "MI_after": 0.5299281182692388
+      "pearson_before": 0.5077400821047788,
+      "pearson_after": 0.5182019912638302,
+      "MI_before": 0.3760889763509727,
+      "MI_after": 0.3720144798028402
     },
     "Solar Zenith Angle": {
-      "pearson_before": 0.15662200626433695,
-      "pearson_after": 0.15475185571035863,
-      "MI_before": 0.5119825708038448,
-      "MI_after": 0.5066589104124892
+      "pearson_before": 0.17090986976471587,
+      "pearson_after": 0.1691628113723551,
+      "MI_before": 0.38920746821458607,
+      "MI_after": 0.3848152786077277
     },
     "Relative Humidity": {
-      "pearson_before": 0.4294969594554264,
-      "pearson_after": 0.45519837828008597,
-      "MI_before": 0.2926528002582156,
-      "MI_after": 0.3050725421330345
+      "pearson_before": 0.44692827346954794,
+      "pearson_after": 0.4635323418598432,
+      "MI_before": 0.22693787029683676,
+      "MI_after": 0.23413263606594903
     },
     "Dew Point": {
-      "pearson_before": 0.14657966227815275,
-      "pearson_after": 0.13027663062193082,
-      "MI_before": 0.4082956236509192,
-      "MI_after": 0.4041670087623759
+      "pearson_before": 0.2843848015532344,
+      "pearson_after": 0.3089281100568383,
+      "MI_before": 0.24756397254448093,
+      "MI_after": 0.24968882801666226
     },
     "Cloud Type": {
-      "pearson_before": 0.19732430528857342,
-      "pearson_after": 0.20462168840738795,
-      "MI_before": 0.08591366188489724,
-      "MI_after": 0.12911430294144965
+      "pearson_before": 0.12154943225735848,
+      "pearson_after": 0.1230657432542544,
+      "MI_before": 0.05173429890740877,
+      "MI_after": 0.07784371860436856
     },
     "lag_1d": {
-      "pearson_before": 0.9709651920399293,
-      "pearson_after": 0.973684402738617,
-      "MI_before": 1.6521624798113201,
-      "MI_after": 1.7396709366739982
+      "pearson_before": 0.9494665744380029,
+      "pearson_after": 0.9634733411460559,
+      "MI_before": 1.4471094205919526,
+      "MI_after": 1.5106555778797919
     },
     "lag_1w": {
-      "pearson_before": 0.8269980113321301,
-      "pearson_after": 0.9478826909592991,
-      "MI_before": 1.1576204950395157,
-      "MI_after": 1.2862226870138098
+      "pearson_before": 0.8526403842925451,
+      "pearson_after": 0.8726773078852379,
+      "MI_before": 0.9517683756036606,
+      "MI_after": 0.9945038906191437
     }
   },
   "windows_rows": {
