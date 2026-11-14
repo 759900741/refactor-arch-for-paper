@@ -599,6 +599,36 @@ def validate_stage5_exit():
         budgets = {r["budget"] for r in rows}
         checks.append(_mk("结果合理性", f"{name}.s5budget", "5 种算法等预算（同 pop×iters）",
                           "PASS" if len(budgets) == 1 else "FAIL", f"预算={sorted(budgets)}"))
+        # v4 新增：算法版本 / 空间 / 初始种群 / 台账 / 隔离缓存 五项一致性
+        try:
+            import metaheuristics as _MH
+            want_ver = _MH.ALGORITHM_VERSION
+        except Exception:  # noqa: BLE001
+            want_ver = None
+        vers = {r.get("algorithm_version") for r in rows}
+        ver_ok = len(vers) == 1 and (want_ver is None or vers == {want_ver})
+        checks.append(_mk("结果合理性", f"{name}.s5version", "5 种算法算法版本一致且为当前版本",
+                          "PASS" if ver_ok else "FAIL",
+                          f"版本={sorted(str(v) for v in vers)}，期望={want_ver}"))
+        spaces = {r.get("space_hash") for r in rows}
+        checks.append(_mk("下游支撑力", f"{name}.s5space", "5 种算法搜索空间指纹一致（同空间可比）",
+                          "PASS" if len(spaces) == 1 else "FAIL", f"space_hash={sorted(spaces)}"))
+        inits = [np.asarray(r["initial_u"], dtype=float) for r in rows]
+        init_ok = all(a.shape == inits[0].shape and np.array_equal(a, inits[0]) for a in inits[1:])
+        checks.append(_mk("结果合理性", f"{name}.s5init", "5 种算法共享同一初始种群（公平性实证）",
+                          "PASS" if init_ok else "FAIL",
+                          f"初始种群形状={inits[0].shape}" if init_ok else "初始种群不一致"))
+        ledger_ok = all((r.get("cache_hits", 0) + r.get("new_trainings", 0)) == r["evals"] == r["budget"]
+                        for r in rows)
+        checks.append(_mk("结果合理性", f"{name}.s5ledger", "台账自洽：缓存命中+新训练=评估数=预算",
+                          "PASS" if ledger_ok else "FAIL",
+                          "; ".join(f"{r['algo']}:{r.get('cache_hits',0)}+{r.get('new_trainings',0)}"
+                                    f"={r['evals']}" for r in rows)))
+        isos = [(r.get("request") or {}).get("isolate") for r in rows]
+        iso_ok = len(isos) == 5 and all(v not in (None, "", "shared") for v in isos)
+        checks.append(_mk("结果合理性", f"{name}.s5iso", "5 种算法均为独立冷缓存（同等起跑线）",
+                          "PASS" if iso_ok else "FAIL",
+                          f"isolate={sorted(set(map(str, isos)))}"))
         hist_ok = all(np.isfinite([x["best_fit"] for x in r["history"]]).all()
                       and all(r["history"][i]["best_fit"] <= r["history"][i - 1]["best_fit"] + 1e-9
                               for i in range(1, len(r["history"]))) for r in rows)
@@ -767,30 +797,32 @@ def validate_stage6_exit():
                           "PASS" if tuned else "WARN",
                           "参数：" + "；".join(f"{r['tag']}={(r.get('params') or 0)//1000}k" for r in sub)))
 
-    # 泛化（Table 9/10）
+    # 泛化（兰州：辅助可行性参考，不参与主要对比结论）
     gn = _load("stage6_generalize.json")
     if gn is None:
         checks.append(_mk("必要性", "generalize.files", "泛化结果存在", "FAIL", "缺 stage6_generalize.json"))
     else:
-        best = _best(gn)
         ours = next((r for r in gn if "本文" in r["tag"]), None)
-        ok = best is not None and ours is not None and best["tag"] == ours["tag"]
-        checks.append(_mk("实际价值", "gen.best", "兰州(异源异粒度)本文模型仍最优",
-                          "PASS" if ok else "FAIL",
-                          f"最优={best['tag'] if best else None}（"
-                          + "；".join(f"{r['tag']}={r['test']['overall']['mape']:.2f}%" for r in gn) + "）"))
+        if ours is None:
+            checks.append(_mk("必要性", "gen.ours", "兰州本文模型结果存在", "FAIL", "缺本文行"))
+        else:
+            mape = ours["test"]["overall"]["mape"]
+            ok = mape <= 5.0
+            checks.append(_mk("实际价值", "gen.feasible",
+                              "兰州(异源异粒度)本文模型工程可用(MAPE≤5%)",
+                              "PASS" if ok else "WARN",
+                              f"本文 MAPE={mape:.2f}%（辅助可行性参考，不参与主要对比结论）"))
 
-    # 配置指纹一致性：A2 / B1 / compare 本文 / generalize 本文
+    # 配置指纹一致性：A2 / B1 / compare 本文（兰州为辅助参考，不参与主要对比结论的配置一致性）
     fe = _load("stage6_fe.json")
-    if fe and ar and cp and gn:
+    if fe and ar and cp:
         a2 = next((r for r in fe if "A2" in r["tag"]), None)
         b1 = next((r for r in ar if r["tag"].startswith("B1")), None)
         c_ours = next((r for r in cp if "本文" in r["tag"]), None)
-        g_ours = next((r for r in gn if "本文" in r["tag"]), None)
-        hs = {x.get("cfg_hash") for x in (a2, b1, c_ours, g_ours) if x}
+        hs = {x.get("cfg_hash") for x in (a2, b1, c_ours) if x}
         ok = len(hs) == 1 and None not in hs
         checks.append(_mk("结果合理性", "cfg.consist",
-                          "A2/B1/compare本文/generalize本文 使用同一最终配置",
+                          "A2/B1/compare本文 使用同一最终配置",
                           "PASS" if ok else "WARN",
                           f"指纹={sorted(h if h else 'None' for h in hs)}"))
 

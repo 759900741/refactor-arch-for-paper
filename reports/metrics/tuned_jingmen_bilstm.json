@@ -123,5 +123,7 @@
   "n": 3348
  },
  "test_eval_count": 1,
- "protocol": "full"
+ "protocol": "full",
+ "ckpt": "models/jingmen_bilstm_7fe6c11d.pt",
+ "ckpt_exported_at": "2026-11-14 11:06:05"
 }

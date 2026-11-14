@@ -105,9 +105,15 @@ class Dim:
         return dict(name=self.name, values=self.values, doc=self.doc)
 
 
+# v4 空间修正（阶段五 S1）：旧空间的最优解在 lr/dropout/hidden 三维顶在上界，
+# 曾怀疑箱体截断了改进方向。经 src/stage5_probe.py 实测（FAST 协议）：
+#   lr→5e-3 使 val_mape 从 2.2478 恶化到 3.3608（发散/过拟合），hidden→192 恶化到
+#   3.3178 且单次耗时 78s→522s；只有 dropout→0.3 略有改善（2.24388）。
+# 故只保留 dropout 的一档扩展，lr / hidden 维持原上界，避免把预算浪费在劣质角点、
+# 并防止大模型拖垮「等预算」的效率比较。
 LR = Dim("lr", [3e-4, 5e-4, 7e-4, 1e-3, 1.5e-3, 2e-3, 3e-3], "学习率（论文列为待优化项，无数值）")
 WD = Dim("weight_decay", [0.0, 1e-5, 1e-4, 1e-3], "L2 正则（论文列为待优化项）")
-DO = Dim("dropout", [0.01, 0.05, 0.1, 0.2], "丢弃率（论文 0.01）")
+DO = Dim("dropout", [0.01, 0.05, 0.1, 0.2, 0.3], "丢弃率（论文 0.01）")
 HID = Dim("hidden", [32, 64, 96, 128], "BiLSTM 隐藏维（论文未给，128 为推定锚点）")
 DM = Dim("d_model", [64, 96, 128], "iTransformer 模型维（论文 128）")
 NH = Dim("n_heads", [4, 8], "注意力头数（论文 8）")
@@ -148,7 +154,7 @@ def join_space(dims, u):
 def u_for(dims, cfg):
     u = np.zeros(len(dims))
     raw = dict(cfg)
-    if "ff_mult" in raw and "d_model" in raw and raw["d_model"]:
+    if "d_ff" in raw and "d_model" in raw and raw["d_model"]:
         raw["ff_mult"] = int(round(raw["d_ff"] / raw["d_model"]))
     for i, d in enumerate(dims):
         u[i] = d.encode(raw.get(d.name, d.values[0]))
@@ -207,9 +213,9 @@ _DCACHE = {}
 
 
 def data_of(dataset, variant="selorig", add_lag=False, need_test=False):
-    k = (dataset, variant, add_lag)
+    k = (dataset, variant, add_lag, need_test)
     if k not in _DCACHE:
-        d = T.load_split(dataset, variant, add_lag=add_lag)
+        d = T.load_split(dataset, variant, add_lag=add_lag, need_test=need_test)
         _DCACHE[k] = d
     d = _DCACHE[k]
     if not need_test:
@@ -237,10 +243,23 @@ def apply_protocol(d, p: Protocol):
 
 
 def data_fingerprint(d):
+    if "_fingerprint" in d:
+        return d["_fingerprint"]
     y = d["train"]["y"]
-    return dict(shape=[int(x) for x in d["train"]["X"].shape],
-                y_sum=round(float(y.sum()), 4),
-                n_val=int(len(d["val"]["X"])), n_feat=len(d["cols"]))
+    digest = hashlib.sha256()
+    for split in ("train", "val"):
+        for field in ("X", "y"):
+            array = np.ascontiguousarray(d[split][field])
+            digest.update(str((split, field, array.shape, str(array.dtype))).encode())
+            digest.update(array.tobytes())
+    digest.update(json.dumps(dict(cols=d["cols"], y_range=d.get("y_range")),
+                             ensure_ascii=False, sort_keys=True).encode("utf-8"))
+    result = dict(shape=[int(x) for x in d["train"]["X"].shape],
+                  y_sum=round(float(y.sum()), 4),
+                  n_val=int(len(d["val"]["X"])), n_feat=len(d["cols"]),
+                  content_sha256=digest.hexdigest())
+    d["_fingerprint"] = result
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -256,10 +275,10 @@ def fingerprint(dataset, variant, add_lag, cfg, p: Protocol, backend):
 
 
 def _dcache_fp(dataset, variant, add_lag):
-    d = _DCACHE.get((dataset, variant, add_lag))
+    d = _DCACHE.get((dataset, variant, add_lag, False))
     if d is None:
         d = data_of(dataset, variant, add_lag)
-        _DCACHE[(dataset, variant, add_lag)] = d
+        _DCACHE[(dataset, variant, add_lag, False)] = d
     return data_fingerprint(d)
 
 
@@ -274,12 +293,18 @@ def _effective(cfg, dataset, p: Protocol, seed):
 
 
 def evaluate(dataset, cfg, p: Protocol = FAST, variant="selorig", add_lag=False,
-             seed=42, force=False, log=None):
-    """训练一次并返回验证集指标。绝不解包 test 集。"""
+             seed=42, force=False, log=None, deadline_at=None, cache_dir=None):
+    """训练一次并返回验证集指标。绝不解包 test 集。
+
+    cache_dir: 可选缓存目录覆盖（阶段五 --isolate 用）。指纹与目录无关，
+               因此同一配置在不同目录下 fp 相同，只是冷热不同。
+    """
     cfg = {**cfg}
     eff = _effective(cfg, dataset, p, seed)
     fp = fingerprint(dataset, variant, add_lag, eff, p, str(T.resolve_device(eff)))
-    path = os.path.join(CACHE, f"{fp}.json")
+    folder = cache_dir or CACHE
+    os.makedirs(folder, exist_ok=True)
+    path = os.path.join(folder, f"{fp}.json")
     if os.path.exists(path) and not force:
         with open(path, encoding="utf-8") as f:
             r = json.load(f)
@@ -290,14 +315,14 @@ def evaluate(dataset, cfg, p: Protocol = FAST, variant="selorig", add_lag=False,
     t0 = time.perf_counter()
     oom = False
     try:
-        model, hist, best = T.fit_model(d, eff, log=log)
+        model, hist, best = T.fit_model(d, eff, log=log, deadline_at=deadline_at)
     except RuntimeError as e:  # noqa: BLE001  CUDA OOM -> batch 减半重试一次
         if "out of memory" not in str(e).lower():
             raise
         torch.cuda.empty_cache()
         eff["batch"] = max(16, int(eff["batch"]) // 2)
         oom = True
-        model, hist, best = T.fit_model(d, eff, log=log)
+        model, hist, best = T.fit_model(d, eff, log=log, deadline_at=deadline_at)
 
     vs = T.val_scores(model, T._to_t(d["val"]["X"], T.resolve_device(eff)),
                       T._to_t(d["val"]["y"], T.resolve_device(eff)), d.get("y_range"))
@@ -531,6 +556,22 @@ def finalize(dataset, key, top=3, seeds=(42, 43, 44), max_minutes=None):
                         y_true=d["val"]["y"], y_pred=ps_val,
                         y_true_orig=yv, y_pred_orig=pv)
 
+    # ---- 权重持久化 ----
+    # 补：此前只落盘 cfg/指标/预测，模型随进程退出即丢失，下游要推理只能重训。
+    # 命名带 cfg_hash，避免四个对比模型互相覆盖（stage4_train 的固定名 is 覆盖式写入）。
+    mod_dir = os.path.join(BASE, "models")
+    os.makedirs(mod_dir, exist_ok=True)
+    h_ck = T.cfg_hash(eff)
+    ck_name = f"{dataset}_{key}_{h_ck[:8]}.pt"
+    ck_path = os.path.join(mod_dir, ck_name)
+    torch.save(dict(state_dict={k: v.detach().cpu() for k, v in model.state_dict().items()},
+                    cfg=eff, cfg_hash=h_ck, arch_version="v2", protocol="full",
+                    n_feat=len(d["cols"]), cols=d["cols"], L=d["L"], H=d["H"],
+                    y_range=[lo, hi],
+                    best_val=float(hist.get("best_score", float("nan"))),
+                    source=f"tuner.finalize/{dataset}/{key}"), ck_path)
+    ck_rel = os.path.relpath(ck_path, BASE).replace("\\", "/")
+
     res = dict(dataset=dataset, label=LABEL[dataset], tag=_tag_of(key), seeded=False,
                model_type=eff["model_type"], variant="selorig",
                residual=eff["residual"], head_mode=eff["head_mode"],
@@ -543,12 +584,13 @@ def finalize(dataset, key, top=3, seeds=(42, 43, 44), max_minutes=None):
                val_mape_mean=best["mean"], val_mape_std=best["std"], val_seeds=best["vals"],
                test=compute_split_metrics(yt, pt, et),
                val_overall=T.metrics(yv, pv),
+               ckpt=ck_rel, ckpt_bytes=int(os.path.getsize(ck_path)),
                test_eval_count=1, protocol="full")
     note = dict(dataset=dataset, key=key, cfg=eff, cfg_hash=T.cfg_hash(eff),
                 val_mape_mean=best["mean"], val_mape_std=best["std"], val_seeds=best["vals"],
                 seeds=list(seeds), best_epoch=res["best_epoch"], params=res["params"],
                 test_mape=res["test"]["overall"]["mape"], test_rmse=res["test"]["overall"]["rmse"],
-                created_at=time.strftime("%Y-%m-%d %H:%M:%S"))
+                ckpt=ck_rel, created_at=time.strftime("%Y-%m-%d %H:%M:%S"))
     with open(os.path.join(TUN, f"best_{dataset}_{key}.json"), "w", encoding="utf-8") as f:
         json.dump(note, f, ensure_ascii=False, indent=1)
     with open(os.path.join(BASE, "reports", "metrics", f"tuned_{dataset}_{key}.json"), "w",
